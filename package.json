@@ -1,5 +1,5 @@
 {
-  "name": "Note",
+  "name": "noted",
   "private": true,
   "license": "UNLICENSED",
   "version": "0.0.0",
@@ -8,7 +8,6 @@
     "dev": "vite --host",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "tauri": "yarn tauri dev",
     "devi": "yarn add npm-check-updates && ncu -u && yarn install",
     "tauri-update": "yarn upgrade @tauri-apps/cli @tauri-apps/api --latest && yarn outdated @tauri-apps/cli && yarn upgrade vue-cli-plugin-tauri --latest && cd src-tauri && cargo update"
   },

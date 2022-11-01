@@ -1,16 +1,11 @@
-import "./App.css";
-
-
-
-
-
+import React from "react";
 
 const App = () => {
   return (
-    <>
-      <h1> Hello Summer C. Alphonse  </h1>yarn
-      
-    </>
+    <div>
+      <div>Starting now</div>
+    </div>
   );
 };
+
 export default App;
