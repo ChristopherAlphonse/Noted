@@ -1,8 +1,6 @@
 import React, { useState } from "react";
-import "./ChangePassword.scss";
 import { toast } from "react-toastify";
 import { changePassword } from "../../services/authService";
-import Card from "../card/Card";
 import { useNavigate } from "react-router-dom";
 
 const initialState = {
@@ -40,7 +38,7 @@ const ChangePassword = () => {
 
   return (
     <div className="change-password">
-      <Card cardClass={"password-card"}>
+      <div>
         <h3>Change Password</h3>
         <form onSubmit={changePass} className="--form-control">
           <input
@@ -71,7 +69,7 @@ const ChangePassword = () => {
             Change Password
           </button>
         </form>
-      </Card>
+      </div>
     </div>
   );
 };

@@ -16,15 +16,13 @@ const Header = () => {
   };
 
   return (
-    <div className="--pad header">
-      <div className="--flex-between">
+    <div>
+      <div>
         <h3>
-          <span className="--fw-thin">Welcome, </span>
-          <span className="--color-danger">{name}</span>
+          <span>Welcome, </span>
+          <span>{name}</span>
         </h3>
-        <button onClick={logout} className="--btn --btn-danger">
-          Logout
-        </button>
+        <button onClick={logout}>Logout</button>
       </div>
       <hr />
     </div>
