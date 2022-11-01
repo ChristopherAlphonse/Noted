@@ -1,9 +1,8 @@
 version: 2
 updates:
   - package-ecosystem: "npm"
-    directory: "/client/"
+    directory: "/"
     schedule:
-      interval: "weekly"
-      day: "monday"
+      interval: "daily"
     open-pull-requests-limit: 7
     target-branch: "master"
