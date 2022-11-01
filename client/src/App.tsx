@@ -8,8 +8,10 @@ import "react-toastify/dist/ReactToastify.css";
 import { useDispatch } from "react-redux";
 import { getLoginStatus } from "./services/authService";
 import { SET_LOGIN } from "./redux/features/auth/authSlice";
-import PageNotFound from "./pages/pageNotFound/pageNotFound";
+import PageNotFound from "./pages/pageNotFound/PageNotFound";
+import Maintenance from "./pages/maintenance/Maintenance";
 import React from "react";
+import Terms from "./pages/terms/Terms";
 
 axios.defaults.withCredentials = true;
 
@@ -33,6 +35,8 @@ const App = () => {
         <Route path="/register" element={<Register />} />
         <Route path="/forgot" element={<Forgot />} />
         <Route path="/resetpassword/:resetToken" element={<Reset />} />
+        <Route path="/maintenance:oncommand" element={<Maintenance />} />
+        <Route path="/terms&conditions:noted" element={<Terms />} />
       </Routes>
     </BrowserRouter>
   );
