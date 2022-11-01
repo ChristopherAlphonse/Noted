@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const userRoute = require("./routes/userRoute");
+const contactRoute = require("./routes/contactRoute");
 const errorHandler = require("./middleWare/errorMiddleware");
 const cookieParser = require("cookie-parser");
 const path = require("path");
@@ -21,10 +22,14 @@ app.use(
   })
 );
 
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
 app.use("/api/users", userRoute);
 
+app.use("/api/contactus", contactRoute);
+
 app.get("/", (req, res) => {
-  res.send("Noted server :)");
+  res.send("Your are in ProManage Server");
 });
 
 app.use(errorHandler);
