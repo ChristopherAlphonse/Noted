@@ -1,7 +1,5 @@
 import React, { useState } from "react";
-import styles from "./auth.module.scss";
 import { MdPassword } from "react-icons/md";
-import Card from "../../components/card/Card";
 import { Link, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { resetPassword } from "../../services/authService";
@@ -47,7 +45,7 @@ const Reset = () => {
 
   return (
     <div className={`container ${styles.auth}`}>
-      <Card>
+      <div>
         <div className={styles.form}>
           <div className="--flex-center">
             <MdPassword size={35} color="#999" />
@@ -72,10 +70,8 @@ const Reset = () => {
               onChange={handleInputChange}
             />
 
-            <button type="submit" className="--btn --btn-primary --btn-block">
-              Reset Password
-            </button>
-            <div className={styles.links}>
+            <button type="submit">Reset Password</button>
+            <div>
               <p>
                 <Link to="/">- Home</Link>
               </p>
@@ -85,7 +81,7 @@ const Reset = () => {
             </div>
           </form>
         </div>
-      </Card>
+      </div>
     </div>
   );
 };

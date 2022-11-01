@@ -60,7 +60,7 @@ const Register = () => {
   return (
     <div>
       {isLoading && <p>loading please wait</p>}
-      <Card>
+      <div>
         <div>
           <div>
             <FaUserAstronaut size={35} color="#999" />
@@ -112,7 +112,7 @@ const Register = () => {
             <Link to="/login">Login</Link>
           </span>
         </div>
-      </Card>
+      </div>
     </div>
   );
 };

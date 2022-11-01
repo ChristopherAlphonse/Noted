@@ -1,13 +1,10 @@
- import React, { useState, useEffect } from "react";
-import styles from "./auth.module.scss";
+import React, { useState, useEffect } from "react";
 import { AiOutlineLogin } from "react-icons/ai";
-import Card from "../../components/card/Card";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { loginUser, validateEmail } from "../../services/authService";
 import { SET_LOGIN, SET_NAME } from "../../redux/features/auth/authSlice";
-import Loader from "../../components/loader/Loader";
 
 const initialState = {
   email: "",
@@ -61,11 +58,10 @@ const Login = () => {
   }, []);
 
   return (
-    <div className={`container ${styles.auth}`}>
-      {isLoading && <Loader />}
-      <Card>
-        <div className={styles.form}>
-          <div className="--flex-center">
+    <div>
+      <div>
+        <div>
+          <div>
             <AiOutlineLogin size={35} color="#999" />
           </div>
           <h2 className="log">Login</h2>
@@ -87,19 +83,17 @@ const Login = () => {
               value={password}
               onChange={handleInputChange}
             />
-            <button type="submit" className="--btn --btn-primary --btn-block">
-              Login
-            </button>
+            <button type="submit">Login</button>
           </form>
           <Link to="/forgot">Forgot Password</Link>
 
-          <span className={styles.register}>
+          <span>
             <Link to="/">Home</Link>
             <p> &nbsp; Don't have an account? &nbsp;</p>
             <Link to="/register">Register</Link>
           </span>
         </div>
-      </Card>
+      </div>
     </div>
   );
 };
