@@ -63,74 +63,14 @@ const Register = () => {
   return (
     <div>
       {isLoading && <p>loading please wait</p>}
-      {/* <div>
-        <div>
-          <div>
-            <FaUserAstronaut size={35} color="#999" />
-          </div>
-          <h2>REGISTER</h2>
-          <h5> Enter your information to register</h5>
-
-          <form onSubmit={register}>
-            <input
-              type="text"
-              placeholder="Name"
-              required
-              name="name"
-              value={name}
-              onChange={handleInputChange}
-            />
-
-            <input
-              type="email"
-              placeholder="Email"
-              required
-              name="email"
-              value={email}
-              onChange={handleInputChange}
-            />
-
-            <input
-              type="password"
-              placeholder="Password"
-              required
-              name="password"
-              value={password}
-              onChange={handleInputChange}
-            />
-
-            <input
-              type="password"
-              placeholder="Confirm Password"
-              required
-              name="password2"
-              value={password2}
-              onChange={handleInputChange}
-            />
-
-            <button type="submit" className="">
-              Register
-            </button>
-          </form>
-
-          <span>
-            <Link to="/">Home</Link>
-            <p> &nbsp; Already have an account? &nbsp;</p>
-            <Link to="/login">Login</Link>
-          </span>
-        </div>
-      </div> */}
-
-      {/* start */}
 
       <section className="bg-gray-50 dark:bg-gray-900">
         <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
           <a
-            href="#"
+            href="/"
             className="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white"
           >
-            <img className="w-8 h-8 mr-2" src={Logo} alt="logo" />
-            Noted
+            <img className="w-20 h-20 mr-2" src={Logo} alt="logo" />
           </a>
           <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
             <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
@@ -230,7 +170,7 @@ const Register = () => {
                       I accept the{" "}
                       <a
                         className="font-medium text-primary-600 hover:underline dark:text-primary-500"
-                        href="terms&conditions:noted"
+                        href="/terms"
                       >
                         Terms and Conditions
                       </a>
@@ -258,7 +198,7 @@ const Register = () => {
         </div>
       </section>
 
-      {/* end */}
+
     </div>
   );
 };

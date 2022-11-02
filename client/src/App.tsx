@@ -36,7 +36,7 @@ const App = () => {
         <Route path="/forgot" element={<Forgot />} />
         <Route path="/resetpassword/:resetToken" element={<Reset />} />
         <Route path="/maintenance:oncommand" element={<Maintenance />} />
-        <Route path="/terms&conditions:noted" element={<Terms />} />
+        <Route path="/terms" element={<Terms />} />
       </Routes>
     </BrowserRouter>
   );

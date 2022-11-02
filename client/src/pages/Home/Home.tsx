@@ -1,10 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import NavBar from "../../components/navbar/NavBar";
 import { ShowOnLogin, ShowOnLogout } from "../../components/protect/HiddenLink";
 
 const Home = () => {
   return (
     <div>
+      <NavBar />
       <nav>
         <ul>
           <ShowOnLogout>
@@ -31,24 +33,16 @@ const Home = () => {
       {/* HERO SECTION */}
       <section className="container hero">
         <div className="hero-text">
-          {/* <div className="--flex-start">
-            <NumberText num="14K" text="Brand Owners" />
-            <NumberText num="23K" text="Active Users" />
-            <NumberText num="500+" text="Partners" />
-          </div> */}
+          <div className="--flex-start">
+            HERO ;Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+            Doloribus, libero reprehenderit ipsam hic fugit debitis vel! Numquam
+            illum optio ipsam fugiat quis ut, mollitia repellat dignissimos qui
+            similique error tempore!
+          </div>
         </div>
       </section>
     </div>
   );
 };
-
-// const NumberText = ({ num, text }) => {
-//   return (
-//     <div className="--mr">
-//       <h3 className="--color-white">{num}</h3>
-//       <p className="--color-white">{text}</p>
-//     </div>
-//   );
-// };
 
 export default Home;
