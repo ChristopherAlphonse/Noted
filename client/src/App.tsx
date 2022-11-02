@@ -12,10 +12,9 @@ import PageNotFound from "./pages/pageNotFound/PageNotFound";
 import Maintenance from "./pages/maintenance/Maintenance";
 
 import Terms from "./components/terms/Terms";
-import Dashboard from "./components/dashboard/Dashboard";
 
 import "aos/dist/aos.css";
-import "./css/style.css";
+import "../public/style.css";
 
 import AOS from "aos";
 
@@ -31,8 +30,6 @@ const App = () => {
     };
     loginStatus();
   }, [dispatch]);
-
-
 
   useEffect(() => {
     AOS.init({
@@ -55,7 +52,6 @@ const App = () => {
         <Route path="/resetpassword/:resetToken" element={<Reset />} />
         <Route path="/maintenance:oncommand" element={<Maintenance />} />
         <Route path="/terms" element={<Terms />} />
-        <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
     </BrowserRouter>
   );

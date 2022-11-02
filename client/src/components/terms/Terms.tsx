@@ -1,10 +1,10 @@
 import React from "react";
-import NavBar from "../../components/navbar/NavBar";
+import Header from "../header/Header";
 
 const Terms = () => {
   return (
     <section className=" mx-auto bg-gray-300 ">
-      <NavBar />
+      <Header />
 
       <div className="lg:w-[72rem] sm:w-[50rem] mx-auto bg-gray-300">
         <h2>

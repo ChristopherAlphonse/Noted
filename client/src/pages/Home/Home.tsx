@@ -1,10 +1,10 @@
 import React from "react";
 
-import Header from "../../partials/Header";
-import HeroHome from "../../partials/HeroHome";
-import FeaturesHome from "../../partials/Features";
+import Header from "../../components/header/Header";
+import HeroHome from "../../components/hero/HeroHome";
+import FeaturesHome from "../../components/feature/Features";
 
-import Footer from "../../partials/Footer";
+import Footer from "../../components/footer/Footer";
 
 const Home = () => {
   return (
