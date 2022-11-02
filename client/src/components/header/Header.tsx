@@ -12,7 +12,7 @@ const Header = () => {
   const logout = async () => {
     await logoutUser();
     await dispatch(SET_LOGIN(false));
-    navigate("/login");
+    navigate("/");
   };
 
   return (

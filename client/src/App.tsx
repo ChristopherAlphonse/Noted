@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home/Home";
 import { Login, Register, Forgot, Reset } from "./pages/auth/AuthIndex";
@@ -10,8 +10,9 @@ import { getLoginStatus } from "./services/authService";
 import { SET_LOGIN } from "./redux/features/auth/authSlice";
 import PageNotFound from "./pages/pageNotFound/PageNotFound";
 import Maintenance from "./pages/maintenance/Maintenance";
-import React from "react";
+
 import Terms from "./pages/terms/Terms";
+import Dashboard from "./components/dashboard/Dashboard";
 
 axios.defaults.withCredentials = true;
 
@@ -37,6 +38,7 @@ const App = () => {
         <Route path="/resetpassword/:resetToken" element={<Reset />} />
         <Route path="/maintenance:oncommand" element={<Maintenance />} />
         <Route path="/terms" element={<Terms />} />
+        <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
     </BrowserRouter>
   );
