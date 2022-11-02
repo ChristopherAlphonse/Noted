@@ -25,10 +25,14 @@ const App = () => {
 
   useEffect(() => {
     const loginStatus = async () => {
+    
       const status = await getLoginStatus();
       dispatch(SET_LOGIN(status));
+      console.log('Checking for log status');
     };
+    
     loginStatus();
+    
   }, [dispatch]);
 
   useEffect(() => {
@@ -38,6 +42,7 @@ const App = () => {
       duration: 700,
       easing: "ease-out-cubic",
     });
+   
   });
 
   return (

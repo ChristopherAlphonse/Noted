@@ -2,13 +2,15 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 export const BACKEND_URL = import.meta.env.VITE_APP_BACKEND_URL;
-console.log(`the ENV is ${BACKEND_URL}`);
+// console.log(`the ENV is ${BACKEND_URL}`);
 
 export const validateEmail = (email) => {
   return email.match(
     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
   );
 };
+
+const customId = "custom-id-for-toast";
 
 // Register User
 export const registerUser = async (userData) => {
@@ -27,7 +29,9 @@ export const registerUser = async (userData) => {
       (error.response && error.response.data && error.response.data.message) ||
       error.message ||
       error.toString();
-    toast.error(message);
+    toast.error(message, {
+      toastId: customId,
+    });
   }
 };
 
@@ -47,7 +51,9 @@ export const loginUser = async (userData) => {
       (error.response && error.response.data && error.response.data.message) ||
       error.message ||
       error.toString();
-    toast.error(message);
+    toast.error(message, {
+      toastId: customId,
+    });
   }
 };
 
@@ -60,7 +66,9 @@ export const logoutUser = async () => {
       (error.response && error.response.data && error.response.data.message) ||
       error.message ||
       error.toString();
-    toast.error(message);
+    toast.error(message, {
+      toastId: customId,
+    });
   }
 };
 
@@ -77,7 +85,9 @@ export const forgotPassword = async (userData) => {
       (error.response && error.response.data && error.response.data.message) ||
       error.message ||
       error.toString();
-    toast.error(message);
+    toast.error(message, {
+      toastId: customId,
+    });
   }
 };
 
@@ -94,7 +104,9 @@ export const resetPassword = async (userData, resetToken) => {
       (error.response && error.response.data && error.response.data.message) ||
       error.message ||
       error.toString();
-    toast.error(message);
+    toast.error(message, {
+      toastId: customId,
+    });
   }
 };
 
@@ -108,9 +120,12 @@ export const getLoginStatus = async () => {
       (error.response && error.response.data && error.response.data.message) ||
       error.message ||
       error.toString();
-    toast.error(message);
+    toast.error(message, {
+      toastId: customId,
+    });
   }
 };
+
 // Get User Profile
 export const getUser = async () => {
   try {
@@ -121,7 +136,9 @@ export const getUser = async () => {
       (error.response && error.response.data && error.response.data.message) ||
       error.message ||
       error.toString();
-    toast.error(message);
+    toast.error(message, {
+      toastId: customId,
+    });
   }
 };
 // Update Profile
@@ -137,7 +154,9 @@ export const updateUser = async (formData) => {
       (error.response && error.response.data && error.response.data.message) ||
       error.message ||
       error.toString();
-    toast.error(message);
+    toast.error(message, {
+      toastId: customId,
+    });
   }
 };
 // Update Profile
@@ -153,6 +172,8 @@ export const changePassword = async (formData) => {
       (error.response && error.response.data && error.response.data.message) ||
       error.message ||
       error.toString();
-    toast.error(message);
+    toast.error(message, {
+      toastId: customId,
+    });
   }
 };

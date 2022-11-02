@@ -24,10 +24,10 @@ function Header() {
         <div className="flex items-center justify-between h-16 md:h-20">
           <div className="flex-shrink-0 mr-4">
             <Link to="/" className="block" aria-label="Noted">
-              {/* <img src={Logo} className="w-19 h-20" /> */}
-              <h1 className="italic text-3xl text-blue-500 font-extrabold ">
+              <img src={LogoColor} className="w-19 h-20" />
+              {/* <h1 className="italic text-3xl text-blue-500 font-extrabold ">
                 NOTED
-              </h1>
+              </h1> */}
             </Link>
           </div>
 
@@ -37,7 +37,9 @@ function Header() {
               <li>
                 <Link
                   to="/login"
-                  className="font-medium text-gray-600 hover:text-gray-900 px-5 py-3 flex items-center transition duration-150 ease-in-out"
+                  className="btn-sm  bg-gray-900  ml-3 bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded
+                  
+                  "
                 >
                   Sign in
                 </Link>
