@@ -1,14 +1,22 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import Hero from "../../components/Hero/Hero";
-import NavBar from "../../components/navbar/NavBar";
-import { ShowOnLogin, ShowOnLogout } from "../../components/protect/HiddenLink";
+
+import Header from "../../partials/Header";
+import HeroHome from "../../partials/HeroHome";
+import FeaturesHome from "../../partials/Features";
+
+import Footer from "../../partials/Footer";
 
 const Home = () => {
   return (
-    <div>
-      <NavBar />
-      <Hero />
+    <div className="flex flex-col min-h-screen overflow-hidden">
+      <Header />
+
+      <main className="flex-grow">
+        <HeroHome />
+        <FeaturesHome />
+      </main>
+
+      <Footer />
     </div>
   );
 };

@@ -11,8 +11,13 @@ import { SET_LOGIN } from "./redux/features/auth/authSlice";
 import PageNotFound from "./pages/pageNotFound/PageNotFound";
 import Maintenance from "./pages/maintenance/Maintenance";
 
-import Terms from "./pages/terms/Terms";
+import Terms from "./components/terms/Terms";
 import Dashboard from "./components/dashboard/Dashboard";
+
+import "aos/dist/aos.css";
+import "./css/style.css";
+
+import AOS from "aos";
 
 axios.defaults.withCredentials = true;
 
@@ -26,6 +31,18 @@ const App = () => {
     };
     loginStatus();
   }, [dispatch]);
+
+
+
+  useEffect(() => {
+    AOS.init({
+      once: true,
+      disable: "phone",
+      duration: 700,
+      easing: "ease-out-cubic",
+    });
+  });
+
   return (
     <BrowserRouter>
       <ToastContainer />
