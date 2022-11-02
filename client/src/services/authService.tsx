@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 export const BACKEND_URL = import.meta.env.VITE_APP_BACKEND_URL;
 // console.log(`the ENV is ${BACKEND_URL}`);
 
-export const validateEmail = (email) => {
+export const validateEmail = (email: string) => {
   return email.match(
     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
   );
@@ -12,8 +12,21 @@ export const validateEmail = (email) => {
 
 const customId = "custom-id-for-toast";
 
+interface formData {
+  name: String;
+  phone: String;
+  bio: String;
+  photo: String;
+}
+
+interface userData {
+  name: String;
+  email: String;
+  password: String;
+}
+
 // Register User
-export const registerUser = async (userData) => {
+export const registerUser = async (userData: userData) => {
   try {
     const response = await axios.post(
       `${BACKEND_URL}/api/users/register`,
@@ -142,7 +155,7 @@ export const getUser = async () => {
   }
 };
 // Update Profile
-export const updateUser = async (formData) => {
+export const updateUser = async (formData: formData) => {
   try {
     const response = await axios.patch(
       `${BACKEND_URL}/api/users/updateuser`,
@@ -160,7 +173,7 @@ export const updateUser = async (formData) => {
   }
 };
 // Update Profile
-export const changePassword = async (formData) => {
+export const changePassword = async (formData: formData) => {
   try {
     const response = await axios.patch(
       `${BACKEND_URL}/api/users/changepassword`,
