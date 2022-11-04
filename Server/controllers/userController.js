@@ -8,15 +8,7 @@ const sendEmail = require("../utils/sendEmail");
 
 // Generate Token
 const generateToken = (id) => {
-  return jwt.sign(
-    {
-      id,
-    },
-    process.env.JWT_SECRET,
-    {
-      expiresIn: "1h",
-    }
-  );
+  return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "1h" });
 };
 
 // Register User
@@ -243,8 +235,9 @@ const forgotPassword = asyncHandler(async (req, res) => {
     await token.deleteOne();
   }
 
-  // Create Reset Token
+  // Create Reste Token
   let resetToken = crypto.randomBytes(32).toString("hex") + user._id;
+  console.log(resetToken);
 
   // Hash token before saving to DB
   const hashedToken = crypto
@@ -271,7 +264,7 @@ const forgotPassword = asyncHandler(async (req, res) => {
 
       <a href=${resetUrl} clicktracking=off>${resetUrl}</a>
 
-  
+      
     `;
   const subject = "Password Reset Request";
   const send_to = user.email;
