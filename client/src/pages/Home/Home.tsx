@@ -5,6 +5,7 @@ import HeroHome from "../../components/hero/HeroHome";
 import FeaturesHome from "../../components/feature/Features";
 
 import Footer from "../../components/footer/Footer";
+import Head from "../../components/header/Head";
 
 const Home = () => {
   return (
@@ -13,6 +14,7 @@ const Home = () => {
 
       <main className="flex-grow">
         <HeroHome />
+        <Head />
         <FeaturesHome />
       </main>
 
