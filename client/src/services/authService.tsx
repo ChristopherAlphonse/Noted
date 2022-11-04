@@ -49,7 +49,7 @@ export const registerUser = async (userData: userData) => {
 };
 
 // Login User
-export const loginUser = async (userData) => {
+export const loginUser = async (userData: userData) => {
   try {
     const response = await axios.post(
       `${BACKEND_URL}/api/users/login`,
@@ -86,7 +86,7 @@ export const logoutUser = async () => {
 };
 
 // Forgot Password
-export const forgotPassword = async (userData) => {
+export const forgotPassword = async (userData: userData) => {
   try {
     const response = await axios.post(
       `${BACKEND_URL}/api/users/forgotpassword`,
@@ -105,7 +105,7 @@ export const forgotPassword = async (userData) => {
 };
 
 // Reset Password
-export const resetPassword = async (userData, resetToken) => {
+export const resetPassword = async (userData: userData, resetToken: string) => {
   try {
     const response = await axios.put(
       `${BACKEND_URL}/api/users/resetpassword/${resetToken}`,

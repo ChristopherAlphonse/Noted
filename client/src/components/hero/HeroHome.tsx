@@ -1,9 +1,7 @@
 import React, { useState } from "react";
 import Modal from "../../utils/Modal";
 
-import { HeroImg, LogoColor } from "../../data";
-
-import { ShowOnLogin, ShowOnLogout } from "../protect/HiddenLink";
+import { HeroImg } from "../../data";
 
 const HeroHome = () => {
   const [videoModalOpen, setVideoModalOpen] = useState(false);
@@ -21,7 +19,7 @@ const HeroHome = () => {
             >
               Your vision's are now{" "}
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-blue-400 italic">
-              NOTED
+                NOTED
               </span>
             </h1>
             <div className="max-w-3xl mx-auto">
@@ -60,7 +58,6 @@ const HeroHome = () => {
             </div>
           </div>
 
-         
           <div>
             <div
               className="relative flex justify-center mb-8"
@@ -97,7 +94,6 @@ const HeroHome = () => {
               </button>
             </div>
 
-          
             <Modal
               id="modal"
               ariaLabel="modal-headline"

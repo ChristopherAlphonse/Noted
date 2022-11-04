@@ -2,3 +2,20 @@
 @import "css/range-slider.css";
 @import "css/toggle-switch.css";
 @import "css/theme.css";
+
+*::-webkit-scrollbar-track {
+  background: #ffffff;
+}
+
+body::-webkit-scrollbar {
+  width: 0.2em;
+}
+
+body::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: #4a7eb6;
+  outline: 1px solid #0070f4;
+}

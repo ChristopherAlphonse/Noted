@@ -1,12 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-function Footer() {
+const Footer = () => {
   return (
     <footer>
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         {/* Bottom area */}
-        <div className="md:flex md:items-center md:justify-between py-4 md:py-8 border-t border-gray-200">
+        <div className="md:flex items-center md:justify-between py-4 md:py-8 border-t border-gray-200">
           {/* Social links */}
           <ul className="flex mb-4 md:order-1 md:ml-4 md:mb-0">
             <li>
@@ -57,13 +57,10 @@ function Footer() {
           </ul>
 
           {/* Copyrights note */}
-          <div className="text-sm text-gray-600 mr-4">
+          <div className="text-sm text-gray-600 mr-4 flex justify-center">
             Made by{" "}
-            <a
-              className="text-blue-600 hover:underline"
-              href="/"
-            >
-          Noted
+            <a className="text-blue-600 hover:underline" href="/">
+              &nbsp; Noted
             </a>
             . All rights reserved.
           </div>
@@ -71,6 +68,6 @@ function Footer() {
       </div>
     </footer>
   );
-}
+};
 
 export default Footer;

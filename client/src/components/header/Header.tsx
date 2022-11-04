@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Logo, LogoColor } from "../../data";
+import {  LogoBlack, LogoColor } from "../../data";
+import { ShowOnLogin, ShowOnLogout } from "../protect/HiddenLink";
+
 
 function Header() {
   const [top, setTop] = useState(true);
@@ -20,14 +22,19 @@ function Header() {
         !top && "bg-white backdrop-blur-sm shadow-lg"
       }`}
     >
+     
+
+   
       <div className="max-w-6xl mx-auto px-5 sm:px-6">
         <div className="flex items-center justify-between h-16 md:h-20">
           <div className="flex-shrink-0 mr-4">
             <Link to="/" className="block" aria-label="Noted">
-              <img src={LogoColor} className="w-19 h-20" />
-              {/* <h1 className="italic text-3xl text-blue-500 font-extrabold ">
-                NOTED
-              </h1> */}
+              <ShowOnLogin>
+                <img src={LogoBlack} className="w-19 h-20" />
+              </ShowOnLogin>
+              <ShowOnLogout>
+                <img src={LogoColor} className="w-19 h-20" />
+              </ShowOnLogout>
             </Link>
           </div>
 

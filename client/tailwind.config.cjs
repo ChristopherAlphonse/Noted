@@ -1,4 +1,5 @@
 module.exports = {
+  darkMode: "class",
   content: ["./index.html", "./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
     extend: {
@@ -24,7 +25,7 @@ module.exports = {
           700: "#0064DA",
           800: "#0059C2",
           900: "#004391",
-        }
+        },
       },
       boxShadow: {
         xs: "0 0 0 1px rgba(0, 0, 0, 0.16)",
