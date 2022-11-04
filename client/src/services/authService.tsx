@@ -1,32 +1,18 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 
+const customId = "custom-id-for-toast";
+
 export const BACKEND_URL = import.meta.env.VITE_APP_BACKEND_URL;
 
-
-export const validateEmail = (email: string) => {
+export const validateEmail = (email) => {
   return email.match(
     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
   );
 };
 
-const customId = "custom-id-for-toast";
-
-interface formData {
-  name: String;
-  phone: String;
-  bio: String;
-  photo: String;
-}
-
-interface userData {
-  name: String;
-  email: String;
-  password: String;
-}
-
 // Register User
-export const registerUser = async (userData: userData) => {
+export const registerUser = async (userData) => {
   try {
     const response = await axios.post(
       `${BACKEND_URL}/api/users/register`,
@@ -49,7 +35,7 @@ export const registerUser = async (userData: userData) => {
 };
 
 // Login User
-export const loginUser = async (userData: userData) => {
+export const loginUser = async (userData) => {
   try {
     const response = await axios.post(
       `${BACKEND_URL}/api/users/login`,
@@ -86,7 +72,7 @@ export const logoutUser = async () => {
 };
 
 // Forgot Password
-export const forgotPassword = async (userData: userData) => {
+export const forgotPassword = async (userData) => {
   try {
     const response = await axios.post(
       `${BACKEND_URL}/api/users/forgotpassword`,
@@ -105,7 +91,7 @@ export const forgotPassword = async (userData: userData) => {
 };
 
 // Reset Password
-export const resetPassword = async (userData: userData, resetToken: string) => {
+export const resetPassword = async (userData, resetToken) => {
   try {
     const response = await axios.put(
       `${BACKEND_URL}/api/users/resetpassword/${resetToken}`,
@@ -138,7 +124,6 @@ export const getLoginStatus = async () => {
     });
   }
 };
-
 // Get User Profile
 export const getUser = async () => {
   try {
@@ -155,7 +140,7 @@ export const getUser = async () => {
   }
 };
 // Update Profile
-export const updateUser = async (formData: formData) => {
+export const updateUser = async (formData) => {
   try {
     const response = await axios.patch(
       `${BACKEND_URL}/api/users/updateuser`,
@@ -173,7 +158,7 @@ export const updateUser = async (formData: formData) => {
   }
 };
 // Update Profile
-export const changePassword = async (formData: formData) => {
+export const changePassword = async (formData) => {
   try {
     const response = await axios.patch(
       `${BACKEND_URL}/api/users/changepassword`,
