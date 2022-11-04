@@ -48,6 +48,7 @@ const Register = () => {
       password,
       password2,
     };
+
     setIsLoading(true);
     try {
       const data = await registerUser(userData);
@@ -58,6 +59,7 @@ const Register = () => {
     } catch (error) {
       setIsLoading(false);
     }
+    setformData(initialState);
   };
 
   return (
@@ -139,7 +141,6 @@ const Register = () => {
                         name="password"
                         value={password}
                         onChange={handleInputChange}
-                        id="password"
                         className="form-input w-full text-gray-800"
                       />
                     </div>
@@ -159,7 +160,6 @@ const Register = () => {
                         name="password2"
                         value={password2}
                         onChange={handleInputChange}
-                        id="password"
                         className="form-input w-full text-gray-800"
                       />
                     </div>

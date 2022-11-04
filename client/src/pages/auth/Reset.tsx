@@ -48,6 +48,7 @@ const Reset = () => {
     } catch (error) {
       console.log(error.message);
     }
+    setFormData(initialState);
   };
 
   return (

@@ -2,7 +2,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 export const BACKEND_URL = import.meta.env.VITE_APP_BACKEND_URL;
-// console.log(`the ENV is ${BACKEND_URL}`);
+
 
 export const validateEmail = (email: string) => {
   return email.match(

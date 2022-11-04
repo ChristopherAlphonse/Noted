@@ -53,6 +53,8 @@ const Login = () => {
     } catch (error) {
       setIsLoading(false);
     }
+
+    setformData(initialState);
   };
   useEffect(() => {
     return () => {

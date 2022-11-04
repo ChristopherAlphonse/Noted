@@ -8,7 +8,15 @@ const sendEmail = require("../utils/sendEmail");
 
 // Generate Token
 const generateToken = (id) => {
-  return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "1d" });
+  return jwt.sign(
+    {
+      id,
+    },
+    process.env.JWT_SECRET,
+    {
+      expiresIn: "1h",
+    }
+  );
 };
 
 // Register User
@@ -236,7 +244,7 @@ const forgotPassword = asyncHandler(async (req, res) => {
   }
 
   // Create Reset Token
-  let resetToken = crypto.randomBytes(256).toString("hex") + user._id;
+  let resetToken = crypto.randomBytes(32).toString("hex") + user._id;
 
   // Hash token before saving to DB
   const hashedToken = crypto
