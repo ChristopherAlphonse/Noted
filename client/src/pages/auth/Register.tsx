@@ -59,7 +59,6 @@ const Register = () => {
       setIsLoading(false);
     }
   };
-
   return (
     <div className="flex flex-col min-h-screen overflow-hidden">
       {/*  Site header */}
@@ -99,7 +98,6 @@ const Register = () => {
                         name="name"
                         value={name}
                         onChange={handleInputChange}
-                        id="name"
                         className="form-input w-full text-gray-800"
                       />
                     </div>
@@ -119,7 +117,6 @@ const Register = () => {
                         name="email"
                         value={email}
                         onChange={handleInputChange}
-                        id="email"
                         className="form-input w-full text-gray-800"
                       />
                     </div>
@@ -164,7 +161,10 @@ const Register = () => {
                   </div>
                   <div className="flex flex-wrap -mx-3 mt-6">
                     <div className="w-full px-3">
-                      <button className="btn text-white bg-blue-600 hover:bg-blue-700 w-full">
+                      <button
+                        type="submit"
+                        className="btn text-white bg-blue-600 hover:bg-blue-700 w-full"
+                      >
                         Sign up
                       </button>
                     </div>

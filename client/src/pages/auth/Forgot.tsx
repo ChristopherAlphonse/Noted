@@ -7,19 +7,10 @@ import { toast } from "react-toastify";
 import { Logo } from "../../data";
 import Header from "../../components/header/Header";
 
-
-interface userData{
-  email:String
-  name:String
-  password:String
-}
-
-
-
 const Forgot = () => {
   const [email, setEmail] = useState("");
 
-  const forgot = async (e: React.FormEvent) => {
+  const forgot = async (e) => {
     e.preventDefault();
     if (!email) {
       return toast.error("Please enter an email");
@@ -30,11 +21,10 @@ const Forgot = () => {
     }
 
     const userData = {
-      email: String,
-     
+      email,
     };
 
-    await forgotPassword(userData as userData);
+    await forgotPassword(userData);
     setEmail("");
   };
 
@@ -69,19 +59,22 @@ const Forgot = () => {
                         Email <span className="text-red-600">*</span>
                       </label>
                       <input
+                        type="email"
+                        placeholder="Email"
+                        required
+                        name="email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        type="email"
-                        name="email"
-                        placeholder="name@company.com"
-                        required
                         className="form-input w-full text-gray-800"
                       />
                     </div>
                   </div>
                   <div className="flex flex-wrap -mx-3 mt-6">
                     <div className="w-full px-3">
-                      <button className="btn text-white bg-blue-600 hover:bg-blue-700 w-full">
+                      <button
+                        type="submit"
+                        className="btn text-white bg-blue-600 hover:bg-blue-700 w-full"
+                      >
                         Send reset link
                       </button>
                     </div>

@@ -16,12 +16,12 @@ const Reset = () => {
 
   const { resetToken } = useParams();
 
-  const handleInputChange = (e: { target: { name: any; value: any } }) => {
+  const handleInputChange = (e) => {
     const { name, value } = e.target;
     setformData({ ...formData, [name]: value });
   };
 
-  const reset = async (e: { preventDefault: () => void }) => {
+  const reset = async (e) => {
     e.preventDefault();
 
     if (password.length < 6) {
@@ -40,9 +40,8 @@ const Reset = () => {
       const data = await resetPassword(userData, resetToken);
       toast.success(data.message);
     } catch (error) {
-      console.log(`ERROR MESSAGE FROM RESET.TSX LINE 42: ${error}`);
+      console.log(error.message);
     }
-    setformData(initialState);
   };
 
   return (
@@ -86,7 +85,6 @@ const Reset = () => {
                         name="password"
                         value={password}
                         onChange={handleInputChange}
-                        id="password"
                         className="form-input w-full text-gray-800"
                       />
                     </div>
@@ -106,7 +104,6 @@ const Reset = () => {
                         name="password2"
                         value={password2}
                         onChange={handleInputChange}
-                        id="password2"
                         className="form-input w-full text-gray-800"
                       />
                     </div>

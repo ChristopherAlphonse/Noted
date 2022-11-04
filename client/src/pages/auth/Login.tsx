@@ -7,7 +7,6 @@ import { loginUser, validateEmail } from "../../services/authService";
 import { SET_LOGIN, SET_NAME } from "../../redux/features/auth/authSlice";
 import { Logo } from "../../data";
 import Header from "../../components/header/Header";
-
 const initialState = {
   email: "",
   password: "",
@@ -20,14 +19,12 @@ const Login = () => {
   const [formData, setformData] = useState(initialState);
   const { email, password } = formData;
 
-  const handleInputChange = (e: {
-    target: { name: string; value: string };
-  }) => {
+  const handleInputChange = (e) => {
     const { name, value } = e.target;
     setformData({ ...formData, [name]: value });
   };
 
-  const login = async (e: React.SyntheticEvent) => {
+  const login = async (e) => {
     e.preventDefault();
 
     if (!email || !password) {
@@ -46,22 +43,14 @@ const Login = () => {
     try {
       const data = await loginUser(userData);
       console.log(data);
-      dispatch(SET_LOGIN(true));
-      dispatch(SET_NAME(data.name));
+      await dispatch(SET_LOGIN(true));
+      await dispatch(SET_NAME(data.name));
       navigate("/dashboard");
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
     }
-
-    setformData(initialState);
   };
-  useEffect(() => {
-    return () => {
-      console.log("page reloaded, preventing multiple toast");
-    };
-  }, []);
-
   return (
     <div className="flex flex-col min-h-screen overflow-hidden">
       {/*  Site header */}
@@ -146,7 +135,10 @@ const Login = () => {
                   </div>
                   <div className="flex flex-wrap -mx-3 mt-6">
                     <div className="w-full px-3">
-                      <button className="btn text-white bg-blue-600 hover:bg-blue-700 w-full">
+                      <button
+                        type="submit"
+                        className="btn text-white bg-blue-600 hover:bg-blue-700 w-full"
+                      >
                         Login
                       </button>
                     </div>
