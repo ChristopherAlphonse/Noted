@@ -34,7 +34,7 @@ const ChangePassword = () => {
 
     const data = await changePassword(formData);
     toast.success(data);
-    navigate("/profile");
+    navigate("/");
   };
 
   return (
@@ -90,7 +90,7 @@ const ChangePassword = () => {
             </div>
             <div>
               <label
-                for="confirm-password"
+                htmlFor="confirm-password"
                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
               >
                 Confirm password

@@ -37,8 +37,7 @@ function Dropdown({
         enterEnd="opacity-100 translate-y-0"
         leave="transition ease-out duration-200"
         leaveStart="opacity-100"
-        leaveEnd="opacity-0"
-      >
+        leaveEnd="opacity-0" appear={undefined}      >
         {children}
       </Transition>
     </li>

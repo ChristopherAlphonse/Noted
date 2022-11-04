@@ -101,7 +101,6 @@ const Login = () => {
                         name="email"
                         value={email}
                         onChange={handleInputChange}
-                        id="email"
                         className="form-input w-full text-gray-800"
                       />
                     </div>
@@ -129,7 +128,6 @@ const Login = () => {
                         name="password"
                         value={password}
                         onChange={handleInputChange}
-                        id="password"
                         className="form-input w-full text-gray-800"
                       />
                     </div>

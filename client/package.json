@@ -12,7 +12,7 @@
     "tauri-update": "yarn upgrade @tauri-apps/cli @tauri-apps/api --latest && yarn outdated @tauri-apps/cli && yarn upgrade vue-cli-plugin-tauri --latest && cd src-tauri && cargo update"
   },
   "dependencies": {
-    "@headlessui/react": "^1.7.3",
+    "@headlessui/react": "^1.7.4",
     "@reduxjs/toolkit": "^1.8.6",
     "@tailwindcss/forms": "^0.5.3",
     "@tauri-apps/api": "^1.1.0",
@@ -24,10 +24,10 @@
     "react-dom": "^18.2.0",
     "react-flatpickr": "^3.10.13",
     "react-icons": "^4.6.0",
-    "react-redux": "^8.0.4",
+    "react-redux": "^8.0.5",
     "react-router": "^6.4.3",
     "react-router-dom": "^6.4.3",
-    "react-toastify": "^9.1.0",
+    "react-toastify": "^9.1.1",
     "react-transition-group": "^4.4.5",
     "redux": "^4.2.0",
     "redux-toolkit": "^1.1.2",

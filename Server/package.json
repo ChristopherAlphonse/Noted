@@ -1,7 +1,7 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "description": "",
+  "description": "server files required to run the backend to the project",
   "main": "server.js",
   "private": true,
   "scripts": {

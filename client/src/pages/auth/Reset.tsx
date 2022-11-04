@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-
+import { Logo } from "../../data";
 import { resetPassword } from "../../services/authService";
 import Header from "../../components/header/Header";
 
@@ -12,24 +11,19 @@ const initialState = {
 };
 
 const Reset = () => {
-  const [formData, setFormData] = useState(initialState);
+  const [formData, setformData] = useState(initialState);
   const { password, password2 } = formData;
 
   const { resetToken } = useParams();
 
-  const handleInputChange = (e: {
-    target: { name: string; value: string };
-  }) => {
+  const handleInputChange = (e: { target: { name: any; value: any } }) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    setformData({ ...formData, [name]: value });
   };
 
   const reset = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
 
-    if (!password) {
-      return toast.error("All fields are required");
-    }
     if (password.length < 6) {
       return toast.error("Passwords must be up to 6 characters");
     }
@@ -46,9 +40,9 @@ const Reset = () => {
       const data = await resetPassword(userData, resetToken);
       toast.success(data.message);
     } catch (error) {
-      console.log(error.message);
+      console.log(`ERROR MESSAGE FROM RESET.TSX LINE 42: ${error}`);
     }
-    setFormData(initialState);
+    setformData(initialState);
   };
 
   return (

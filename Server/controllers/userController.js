@@ -8,7 +8,7 @@ const sendEmail = require("../utils/sendEmail");
 
 // Generate Token
 const generateToken = (id) => {
-  return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "1h" });
+  return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "1d" });
 };
 
 // Register User
@@ -264,7 +264,8 @@ const forgotPassword = asyncHandler(async (req, res) => {
 
       <a href=${resetUrl} clicktracking=off>${resetUrl}</a>
 
-      
+      <p>Regards...</p>
+      <p>Pinvent Team</p>
     `;
   const subject = "Password Reset Request";
   const send_to = user.email;

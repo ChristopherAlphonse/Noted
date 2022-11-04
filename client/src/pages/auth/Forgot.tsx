@@ -7,6 +7,15 @@ import { toast } from "react-toastify";
 import { Logo } from "../../data";
 import Header from "../../components/header/Header";
 
+
+interface userData{
+  email:String
+  name:String
+  password:String
+}
+
+
+
 const Forgot = () => {
   const [email, setEmail] = useState("");
 
@@ -22,9 +31,10 @@ const Forgot = () => {
 
     const userData = {
       email: String,
+     
     };
 
-    await forgotPassword(userData);
+    await forgotPassword(userData as userData);
     setEmail("");
   };
 

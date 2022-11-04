@@ -45,8 +45,7 @@ function Modal({
         leave="transition ease-out duration-100"
         leaveStart="opacity-100"
         leaveEnd="opacity-0"
-        aria-hidden="true"
-      />
+        aria-hidden="true" appear={undefined}      />
 
       {/* Modal dialog */}
       <Transition
@@ -61,8 +60,7 @@ function Modal({
         enterEnd="opacity-100 scale-100"
         leave="transition ease-out duration-200"
         leaveStart="opacity-100 scale-100"
-        leaveEnd="opacity-0 scale-95"
-      >
+        leaveEnd="opacity-0 scale-95" appear={undefined}      >
         <div className="bg-white overflow-auto max-w-6xl w-full max-h-full" ref={modalContent}>          
           {children}
         </div>

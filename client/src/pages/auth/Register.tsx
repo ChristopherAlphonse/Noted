@@ -1,10 +1,11 @@
 import React, { useState } from "react";
+
 import { toast } from "react-toastify";
 import { registerUser, validateEmail } from "../../services/authService";
 import { useDispatch } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 import { SET_LOGIN, SET_NAME } from "../../redux/features/auth/authSlice";
 import Header from "../../components/header/Header";
-import { Link } from "react-router-dom";
 
 const initialState = {
   name: "",
@@ -15,18 +16,17 @@ const initialState = {
 
 const Register = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setformData] = useState(initialState);
   const { name, email, password, password2 } = formData;
 
-  const handleInputChange = (e: {
-    target: { name: string; value: string };
-  }) => {
+  const handleInputChange = (e) => {
     const { name, value } = e.target;
     setformData({ ...formData, [name]: value });
   };
 
-  const register = async (e: { preventDefault: () => void }) => {
+  const register = async (e) => {
     e.preventDefault();
 
     if (!name || !email || !password) {
@@ -46,20 +46,18 @@ const Register = () => {
       name,
       email,
       password,
-      password2,
     };
-
     setIsLoading(true);
     try {
       const data = await registerUser(userData);
       // console.log(data);
-      dispatch(SET_LOGIN(true));
-      dispatch(SET_NAME(data.name));
+      await dispatch(SET_LOGIN(true));
+      await dispatch(SET_NAME(data.name));
+      navigate("/dashboard");
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
     }
-    setformData(initialState);
   };
 
   return (
