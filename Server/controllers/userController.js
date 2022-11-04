@@ -235,9 +235,8 @@ const forgotPassword = asyncHandler(async (req, res) => {
     await token.deleteOne();
   }
 
-  // Create Reste Token
-  let resetToken = crypto.randomBytes(32).toString("hex") + user._id;
-  console.log(resetToken);
+  // Create Reset Token
+  let resetToken = crypto.randomBytes(256).toString("hex") + user._id;
 
   // Hash token before saving to DB
   const hashedToken = crypto
@@ -264,8 +263,7 @@ const forgotPassword = asyncHandler(async (req, res) => {
 
       <a href=${resetUrl} clicktracking=off>${resetUrl}</a>
 
-      <p>Regards...</p>
-      <p>Pinvent Team</p>
+  
     `;
   const subject = "Password Reset Request";
   const send_to = user.email;
