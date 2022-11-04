@@ -1,3 +1,5 @@
 /node_modules
 .env 
-/generate.js
+helpers
+.helpers
+/helpers
