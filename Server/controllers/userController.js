@@ -376,37 +376,6 @@ const forgotPassword = asyncHandler(async (req, res) => {
                   font-family: Arial, sans-serif;
                 "
               >
-                <tr>
-                  <td
-                    class="head-title"
-                    style="
-                      border-collapse: collapse;
-                      border: 0;
-                      margin: 0;
-                      padding: 0;
-                      -webkit-text-size-adjust: none;
-                      color: #555559;
-                      font-family: Arial, sans-serif;
-                      font-size: 28px;
-                      line-height: 34px;
-                      font-weight: bold;
-                      text-align: center;
-                    "
-                  >
-                    <i
-                      class="mktEditable"
-                      id="main_title"
-                      style="
-                        color: #4a7eb6;
-                        font-weight: 800;
-                        font-size: 50px;
-                        font-family: Arial, sans-serif;
-                      "
-                    >
-                      NOTED
-                    </i>
-                  </td>
-                </tr>
                 <tr></tr>
                 <tr>
                   <td
@@ -443,8 +412,9 @@ const forgotPassword = asyncHandler(async (req, res) => {
                     <div class="mktEditable" id="cta">
                       <img
                         class="top-image"
-                        src="https://res.cloudinary.com/img-api-pager-2/image/upload/v1655672311/cld-sample.jpg"
-                        width="560"
+                        src="https://res.cloudinary.com/img-api-pager-2/image/upload/v1667612088/Noted/logo_cqd6pf.png"
+                        width="600"
+                        height="300"
                       /><br />
                     </div>
                   </td>
@@ -483,16 +453,10 @@ const forgotPassword = asyncHandler(async (req, res) => {
                     "
                   >
                     <div class="mktEditable" id="main_text">
-                      <h4>Hello ${user.name},</h4>
+                      <h1>Hello ${user.name},</h1>
                       <p>
-                        Unfortunately, we have received a request for a password
-                        reset, but don't worry, we will have you up and running
-                        in no time.
-                      </p>
-                      <p>
-                        Please reset your password using the
-                        <a href="${resetUrl}">link </a> provided below. This
-                        link is only valid for 5 minutes.
+                        We have received a password reset request from your
+                        account. If this is an error please ignore.
                       </p>
 
                       <a
@@ -507,6 +471,10 @@ const forgotPassword = asyncHandler(async (req, res) => {
                         "
                         >Reset Password</a
                       >
+                      <br />
+                      <br />
+
+                      <div>Notice: This link expire in 5 minutes</div>
                     </div>
                   </td>
                 </tr>
@@ -564,6 +532,24 @@ const forgotPassword = asyncHandler(async (req, res) => {
                       concern; do not share your password with anyone who may
                       use it for malicious purposes.</span
                     >
+                  </td>
+                </tr>
+              </table>
+              <br />
+              <table>
+                <tr>
+                  <td
+                    align="center"
+                    style="
+                      font-family: Arial, sans-serif;
+                      -webkit-text-size-adjust: none;
+                      font-size: 8px;
+                      text-decoration: none;
+                    "
+                  >
+                    <a style="color: #8c8f91" href="/">
+                      &#x2810;Terms & Conditions&#10256;
+                    </a>
                   </td>
                 </tr>
               </table>
@@ -628,8 +614,7 @@ const forgotPassword = asyncHandler(async (req, res) => {
 </body>
 
 
-      
-    `;
+  `;
   const subject = "Password Reset Request";
   const send_to = user.email;
   const sent_from = process.env.EMAIL_USER;

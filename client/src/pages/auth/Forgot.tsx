@@ -1,10 +1,7 @@
 import React, { useState } from "react";
-import { AiOutlineMail } from "react-icons/ai";
-
-import { Link } from "react-router-dom";
 import { forgotPassword, validateEmail } from "../../services/authService";
 import { toast } from "react-toastify";
-import { Logo } from "../../data";
+
 import Header from "../../components/header/Header";
 
 const Forgot = () => {
