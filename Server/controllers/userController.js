@@ -258,14 +258,375 @@ const forgotPassword = asyncHandler(async (req, res) => {
 
   // Reset Email
   const message = `
-      <h2>Hello ${user.name},</h2>
-      <p>Please use the url below to reset your password</p>  
-      <p>This reset link is valid for only 5 minutes.</p>
+  <body link="#4a7eb6" vlink="#4a7eb6" alink="#4a7eb6">
+  <style>
+    @media only screen and (max-width: 600px) {
+      .main {
+        width: 320px !important;
+      }
 
-      <a href=${resetUrl} clicktracking=off>${resetUrl}</a>
+      .top-image {
+        width: 100% !important;
+      }
+      .inside-footer {
+        width: 320px !important;
+      }
+      table[class="contenttable"] {
+        width: 320px !important;
+        text-align: left !important;
+      }
+      td[class="force-col"] {
+        display: block !important;
+      }
+      td[class="rm-col"] {
+        display: none !important;
+      }
+      .mt {
+        margin-top: 15px !important;
+      }
+      *[class].width300 {
+        width: 255px !important;
+      }
+      *[class].block {
+        display: block !important;
+      }
+      *[class].blockcol {
+        display: none !important;
+      }
+      .emailButton {
+        width: 100% !important;
+      }
 
-      <p>Regards...</p>
-      <p>Noted dev Team</p>
+      .emailButton a {
+        display: block !important;
+        font-size: 18px !important;
+      }
+    }
+  </style>
+
+  <table
+    class="main contenttable"
+    align="center"
+    style="
+      font-weight: normal;
+      border-collapse: collapse;
+      border: 0;
+      margin-left: auto;
+      margin-right: auto;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      color: #555559;
+      background-color: white;
+      font-size: 16px;
+      line-height: 26px;
+      width: 600px;
+    "
+  >
+    <tr>
+      <td
+        class="border"
+        style="
+          border-collapse: collapse;
+          border: 1px solid #eeeff0;
+          margin: 0;
+          padding: 0;
+          -webkit-text-size-adjust: none;
+          color: #555559;
+          font-family: Arial, sans-serif;
+          font-size: 16px;
+          line-height: 26px;
+        "
+      >
+        <table
+          style="
+            font-weight: normal;
+            border-collapse: collapse;
+            border: 0;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+          "
+        >
+          <tr>
+            <td
+              valign="top"
+              class="side title"
+              style="
+                border-collapse: collapse;
+                border: 0;
+                margin: 0;
+                padding: 20px;
+                -webkit-text-size-adjust: none;
+                color: #555559;
+                font-family: Arial, sans-serif;
+                font-size: 16px;
+                line-height: 26px;
+                vertical-align: top;
+                background-color: white;
+                border-top: none;
+              "
+            >
+              <table
+                style="
+                  font-weight: normal;
+                  border-collapse: collapse;
+                  border: 0;
+                  margin: 0;
+                  padding: 0;
+                  font-family: Arial, sans-serif;
+                "
+              >
+                <tr>
+                  <td
+                    class="head-title"
+                    style="
+                      border-collapse: collapse;
+                      border: 0;
+                      margin: 0;
+                      padding: 0;
+                      -webkit-text-size-adjust: none;
+                      color: #555559;
+                      font-family: Arial, sans-serif;
+                      font-size: 28px;
+                      line-height: 34px;
+                      font-weight: bold;
+                      text-align: center;
+                    "
+                  >
+                    <i
+                      class="mktEditable"
+                      id="main_title"
+                      style="
+                        color: #4a7eb6;
+                        font-weight: 800;
+                        font-size: 50px;
+                        font-family: Arial, sans-serif;
+                      "
+                    >
+                      NOTED
+                    </i>
+                  </td>
+                </tr>
+                <tr></tr>
+                <tr>
+                  <td
+                    class="top-padding"
+                    style="
+                      border-collapse: collapse;
+                      border: 0;
+                      margin: 0;
+                      padding: 5px;
+                      -webkit-text-size-adjust: none;
+                      color: #555559;
+                      font-family: Arial, sans-serif;
+                      font-size: 16px;
+                      line-height: 26px;
+                    "
+                  ></td>
+                </tr>
+                <tr>
+                  <td
+                    class="grey-block"
+                    style="
+                      border-collapse: collapse;
+                      border: 0;
+                      margin: 0;
+                      -webkit-text-size-adjust: none;
+                      color: #555559;
+                      font-family: Arial, sans-serif;
+                      font-size: 16px;
+                      line-height: 26px;
+                      background-color: #fff;
+                      text-align: center;
+                    "
+                  >
+                    <div class="mktEditable" id="cta">
+                      <img
+                        class="top-image"
+                        src="https://res.cloudinary.com/img-api-pager-2/image/upload/v1655672311/cld-sample.jpg"
+                        width="560"
+                      /><br />
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td
+                    class="top-padding"
+                    style="
+                      border-collapse: collapse;
+                      border: 0;
+                      margin: 0;
+                      padding: 15px 0;
+                      -webkit-text-size-adjust: none;
+                      color: #555559;
+                      font-family: Arial, sans-serif;
+                      font-size: 16px;
+                      line-height: 21px;
+                    "
+                  >
+                    <hr size="1" color="#eeeff0" />
+                  </td>
+                </tr>
+                <tr>
+                  <td
+                    class="text"
+                    style="
+                      border-collapse: collapse;
+                      border: 0;
+                      margin: 0;
+                      padding: 0;
+                      -webkit-text-size-adjust: none;
+                      color: #555559;
+                      font-family: Arial, sans-serif;
+                      font-size: 16px;
+                      line-height: 26px;
+                    "
+                  >
+                    <div class="mktEditable" id="main_text">
+                      <h4>Hello ${user.name},</h4>
+                      <p>
+                        Unfortunately, we have received a request for a password
+                        reset, but don't worry, we will have you up and running
+                        in no time.
+                      </p>
+                      <p>
+                        Please reset your password using the
+                        <a href="${resetUrl}">link </a> provided below. This
+                        link is only valid for 5 minutes.
+                      </p>
+
+                      <a
+                        href="${resetUrl}"
+                        clicktracking="off"
+                        style="
+                          color: #ffffff;
+                          background-color: #4a7eb6;
+                          border: 10px solid #4a7eb6;
+                          border-radius: 3px;
+                          text-decoration: none;
+                        "
+                        >Reset Password</a
+                      >
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td
+                    style="
+                      border-collapse: collapse;
+                      border: 0;
+                      margin: 0;
+                      padding: 0;
+                      -webkit-text-size-adjust: none;
+                      color: #555559;
+                      font-family: Arial, sans-serif;
+                      font-size: 16px;
+                      line-height: 24px;
+                    "
+                  >
+                    &nbsp;<br />
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td
+              style="
+                padding: 20px;
+                font-family: Arial, sans-serif;
+                -webkit-text-size-adjust: none;
+              "
+              align="center"
+            >
+              <table>
+                <tr>
+                  <td
+                    align="center"
+                    style="
+                      font-family: Arial, sans-serif;
+                      -webkit-text-size-adjust: none;
+                      font-size: 16px;
+                    "
+                  >
+                    <a
+                      style="color: #4a7eb6"
+                      href="{{system.forwardToFriendLink}}"
+                      >Forward this Email</a
+                    >
+                    <br /><span
+                      style="
+                        font-size: 10px;
+                        font-family: Arial, sans-serif;
+                        -webkit-text-size-adjust: none;
+                      "
+                      >Please only forward this email to those who it may
+                      concern; do not share your password with anyone who may
+                      use it for malicious purposes.</span
+                    >
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td
+              style="
+                border-collapse: collapse;
+                border: 0;
+                margin: 0;
+                padding: 0;
+                -webkit-text-size-adjust: none;
+                color: #555559;
+                font-family: Arial, sans-serif;
+                font-size: 16px;
+                line-height: 24px;
+                padding: 20px;
+              "
+            >
+              <div class="mktEditable" id="cta_try">
+                <table
+                  border="0"
+                  cellpadding="0"
+                  cellspacing="0"
+                  class="mobile"
+                  style="
+                    font-weight: normal;
+                    border-collapse: collapse;
+                    border: 0;
+                    margin: 0;
+                    padding: 0;
+                    font-family: Arial, sans-serif;
+                  "
+                >
+                  <tr>
+                    <td
+                      class="force-col"
+                      valign="top"
+                      style="
+                        border-collapse: collapse;
+                        border: 0;
+                        margin: 0;
+                        padding: 0;
+                        -webkit-text-size-adjust: none;
+                        color: #555559;
+                        font-family: Arial, sans-serif;
+                        font-size: 16px;
+                        line-height: 24px;
+                      "
+                    ></td>
+                  </tr>
+                </table>
+              </div>
+            </td>
+          </tr>
+          <tr></tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+
 
       
     `;
