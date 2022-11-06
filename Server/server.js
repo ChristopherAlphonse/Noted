@@ -12,6 +12,7 @@ const path = require("path");
 const app = express();
 
 const URL = process.env.FRONTEND_URL;
+const DB_Message = process.env.MSG;
 
 // Middlewares
 app.use(express.json());
@@ -46,7 +47,7 @@ mongoose
   .connect(process.env.MONGO_URI)
   .then(() => {
     app.listen(PORT, () => {
-      console.log(`Server up ${PORT}`);
+      console.log(`Server up on port ${PORT}, and ${DB_Message}`);
     });
   })
   .catch((err) => console.log(err));

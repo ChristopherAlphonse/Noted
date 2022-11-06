@@ -20,8 +20,18 @@ export const registerUser = async (userData) => {
       { withCredentials: true }
     );
     if (response.statusText === "OK") {
-      toast.success("User Registered successfully");
+      toast.success("User Registered successfully", {
+        position: "top-right",
+        autoClose: 1100,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     }
+
     return response.data;
   } catch (error) {
     const message =
@@ -42,7 +52,16 @@ export const loginUser = async (userData) => {
       userData
     );
     if (response.statusText === "OK") {
-      toast.success("Login Successful...");
+      toast.success("Login successfully", {
+        position: "top-right",
+        autoClose: 1100,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     }
     return response.data;
   } catch (error) {
@@ -57,9 +76,26 @@ export const loginUser = async (userData) => {
 };
 
 // Logout User
-export const logoutUser = async () => {
+export const logoutUser = async (userData) => {
   try {
-    await axios.get(`${BACKEND_URL}/api/users/logout`);
+    const response = await axios.get(
+      `${BACKEND_URL}/api/users/logout`,
+      userData
+    );
+
+    if (response.statusText === "OK") {
+      toast.success("Logout Successfully", {
+        position: "top-right",
+        autoClose: 1100,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
+    return response.data;
   } catch (error) {
     const message =
       (error.response && error.response.data && error.response.data.message) ||
@@ -78,7 +114,18 @@ export const forgotPassword = async (userData) => {
       `${BACKEND_URL}/api/users/forgotpassword`,
       userData
     );
-    toast.success(response.data.message);
+    toast.success(response.data.message, {
+      position: "top-right",
+      autoClose: 1100,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+
+    return response.data.message;
   } catch (error) {
     const message =
       (error.response && error.response.data && error.response.data.message) ||
@@ -97,6 +144,7 @@ export const resetPassword = async (userData, resetToken) => {
       `${BACKEND_URL}/api/users/resetpassword/${resetToken}`,
       userData
     );
+
     return response.data;
   } catch (error) {
     const message =
