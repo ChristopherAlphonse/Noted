@@ -30,7 +30,7 @@ const userSchema = mongoose.Schema(
     },
     phone: {
       type: String,
-      default: "+234",
+      default: "123-123-1234",
     },
     bio: {
       type: String,

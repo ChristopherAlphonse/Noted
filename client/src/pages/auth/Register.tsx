@@ -30,16 +30,18 @@ const Register = () => {
     e.preventDefault();
 
     if (!name || !email || !password) {
-      return toast.error("All fields are required");
+      return toast.error("All fields are required", { autoClose: 1100 });
     }
     if (password.length < 6) {
-      return toast.error("Passwords must be up to 6 characters");
+      return toast.error("Passwords must be up to 6 characters", {
+        autoClose: 1100,
+      });
     }
     if (!validateEmail(email)) {
-      return toast.error("Please enter a valid email");
+      return toast.error("Please enter a valid email", { autoClose: 1100 });
     }
     if (password !== password2) {
-      return toast.error("Passwords do not match");
+      return toast.error("Passwords do not match", { autoClose: 1100 });
     }
 
     const userData = {

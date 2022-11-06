@@ -27,8 +27,8 @@ const App = () => {
   useEffect(() => {
     const loginStatus = async () => {
       const status = await getLoginStatus();
+      await console.log(`IsUserLogIn: ${status}`);
       dispatch(SET_LOGIN(status));
-      console.log("Checking for log status");
     };
 
     loginStatus();

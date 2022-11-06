@@ -28,7 +28,11 @@ const Login = () => {
     e.preventDefault();
 
     if (!email || !password) {
-      return toast.error("All fields are required");
+      return toast.error(
+        "All fields are required",
+
+        { autoClose: 1100 }
+      );
     }
 
     if (!validateEmail(email)) {
@@ -42,7 +46,6 @@ const Login = () => {
     setIsLoading(true);
     try {
       const data = await loginUser(userData);
-      console.log(data);
       await dispatch(SET_LOGIN(true));
       await dispatch(SET_NAME(data.name));
       navigate("/dashboard");
