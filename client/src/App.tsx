@@ -17,6 +17,7 @@ import "aos/dist/aos.css";
 import "../public/style.css";
 
 import AOS from "aos";
+import Dashboard from "./components/dashboard/dashboard";
 
 axios.defaults.withCredentials = true;
 
@@ -25,14 +26,12 @@ const App = () => {
 
   useEffect(() => {
     const loginStatus = async () => {
-    
       const status = await getLoginStatus();
       dispatch(SET_LOGIN(status));
-      console.log('Checking for log status');
+      console.log("Checking for log status");
     };
-    
+
     loginStatus();
-    
   }, [dispatch]);
 
   useEffect(() => {
@@ -42,7 +41,6 @@ const App = () => {
       duration: 700,
       easing: "ease-out-cubic",
     });
-   
   });
 
   return (
@@ -57,6 +55,7 @@ const App = () => {
         <Route path="/resetpassword/:resetToken" element={<Reset />} />
         <Route path="/maintenance:oncommand" element={<Maintenance />} />
         <Route path="/terms" element={<Terms />} />
+        <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
     </BrowserRouter>
   );

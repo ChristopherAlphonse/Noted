@@ -14,7 +14,6 @@ const Home = () => {
 
       <main className="flex-grow">
         <HeroHome />
-        <Head />
         <FeaturesHome />
       </main>
 
