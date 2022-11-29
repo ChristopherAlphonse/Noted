@@ -1,7 +1,7 @@
-import React, { useState, useRef, useEffect } from "react";
-import Transition from "../../utils/Transition";
+import { NewsHero, NewsHero2, NewsHero3 } from "../../data";
+import React, { useEffect, useRef, useState } from "react";
 
-import { NewsHero } from "../../data";
+import Transition from "../../utils/Transition";
 
 function Features() {
   const [tab, setTab] = useState(1);
@@ -75,8 +75,8 @@ function Features() {
                       Building the Simple ecosystem
                     </div>
                     <div className="text-gray-600">
-                      Take collaboration to the next level with security and
-                      administrative features built for teams.
+                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                      Sint assumenda cum id expedita illo ipsa adipisci nostrum
                     </div>
                   </div>
                   <div className="flex justify-center items-center w-8 h-8 bg-white rounded-full shadow flex-shrink-0 ml-3">
@@ -106,8 +106,8 @@ function Features() {
                       Building the Simple ecosystem
                     </div>
                     <div className="text-gray-600">
-                      Take collaboration to the next level with security and
-                      administrative features built for teams.
+                      nobis fugit quidem similique quos reiciendis suscipit
+                      commodi sequi ipsa corporis non! Eius, dicta?
                     </div>
                   </div>
                   <div className="flex justify-center items-center w-8 h-8 bg-white rounded-full shadow flex-shrink-0 ml-3">
@@ -140,8 +140,8 @@ function Features() {
                       Building the Simple ecosystem
                     </div>
                     <div className="text-gray-600">
-                      Take collaboration to the next level with security and
-                      administrative features built for teams.
+                      Lorem ipsum dolor sit amet consecte vel provident fuga
+                      aut? Pariatur.
                     </div>
                   </div>
                   <div className="flex justify-center items-center w-8 h-8 bg-white rounded-full shadow flex-shrink-0 ml-3">
@@ -184,6 +184,50 @@ function Features() {
                     <img
                       className="md:max-w-none mx-auto rounded"
                       src={NewsHero}
+                      width="500"
+                      height="462"
+                      alt="Features bg"
+                    />
+                  </div>
+                </Transition>
+                {/* Item 2 */}
+                <Transition
+                  show={tab === 2}
+                  appear={true}
+                  className="w-full"
+                  enter="transition ease-in-out duration-700 transform order-first"
+                  enterStart="opacity-0 translate-y-16"
+                  enterEnd="opacity-100 translate-y-0"
+                  leave="transition ease-in-out duration-300 transform absolute"
+                  leaveStart="opacity-100 translate-y-0"
+                  leaveEnd="opacity-0 -translate-y-16"
+                >
+                  <div className="relative inline-flex flex-col">
+                    <img
+                      className="md:max-w-none mx-auto rounded"
+                      src={NewsHero2}
+                      width="500"
+                      height="462"
+                      alt="Features bg"
+                    />
+                  </div>
+                </Transition>
+                {/* Item 3 */}
+                <Transition
+                  show={tab === 3}
+                  appear={true}
+                  className="w-full"
+                  enter="transition ease-in-out duration-700 transform order-first"
+                  enterStart="opacity-0 translate-y-16"
+                  enterEnd="opacity-100 translate-y-0"
+                  leave="transition ease-in-out duration-300 transform absolute"
+                  leaveStart="opacity-100 translate-y-0"
+                  leaveEnd="opacity-0 -translate-y-16"
+                >
+                  <div className="relative inline-flex flex-col">
+                    <img
+                      className="md:max-w-none mx-auto rounded"
+                      src={NewsHero3}
                       width="500"
                       height="462"
                       alt="Features bg"
