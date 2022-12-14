@@ -1,23 +1,22 @@
-import React, { useEffect } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Home from "./pages/Home/Home";
-import { Login, Register, Forgot, Reset } from "./pages/auth/AuthIndex";
-import axios from "axios";
-import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useDispatch } from "react-redux";
-import { getLoginStatus } from "./services/authService";
-import { SET_LOGIN } from "./redux/features/auth/authSlice";
-import PageNotFound from "./pages/pageNotFound/PageNotFound";
-import Maintenance from "./pages/maintenance/Maintenance";
-
-import Terms from "./components/terms/Terms";
-
 import "aos/dist/aos.css";
 import "../public/style.css";
 
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Forgot, Login, Register, Reset } from "./pages/auth/AuthIndex";
+import React, { useEffect } from "react";
+
 import AOS from "aos";
 import Dashboard from "./components/dashboard/dashboard";
+import Home from "./pages/Home/Home";
+import Maintenance from "./pages/maintenance/Maintenance";
+import PageNotFound from "./pages/pageNotFound/PageNotFound";
+import { SET_LOGIN } from "./redux/features/auth/authSlice";
+import Terms from "./components/terms/Terms";
+import { ToastContainer } from "react-toastify";
+import axios from "axios";
+import { getLoginStatus } from "./services/authService";
+import { useDispatch } from "react-redux";
 
 axios.defaults.withCredentials = true;
 

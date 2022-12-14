@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from "react";
-
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { toast } from "react-toastify";
-import { loginUser, validateEmail } from "../../services/authService";
+import React, { useEffect, useState } from "react";
 import { SET_LOGIN, SET_NAME } from "../../redux/features/auth/authSlice";
-import { Logo } from "../../data";
+import { loginUser, validateEmail } from "../../services/authService";
+
 import Header from "../../components/header/Header";
+import { Logo } from "../../data";
+import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+
 const initialState = {
   email: "",
   password: "",
@@ -108,7 +109,7 @@ const Login = () => {
                         </label>
                         <Link
                           to="/forgot"
-                          className="text-sm font-medium text-blue-600 hover:underline"
+                          className="text-sm font-medium text-indigo-600 hover:underline"
                         >
                           Having trouble signing in?
                         </Link>

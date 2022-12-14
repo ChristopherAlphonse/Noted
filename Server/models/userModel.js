@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
+const UserImg = "./Server/uploads/mario.jpg";
 
 const userSchema = mongoose.Schema(
   {
@@ -26,7 +27,7 @@ const userSchema = mongoose.Schema(
     photo: {
       type: String,
       required: [true, "Please add a photo"],
-      default: "https://i.ibb.co/4pDNDk1/avatar.png",
+      default: UserImg,
     },
     phone: {
       type: String,
