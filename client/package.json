@@ -12,7 +12,7 @@
     "tauri-update": "yarn upgrade @tauri-apps/cli @tauri-apps/api --latest && yarn outdated @tauri-apps/cli && yarn upgrade vue-cli-plugin-tauri --latest && cd src-tauri && cargo update"
   },
   "dependencies": {
-    "@headlessui/react": "^1.7.5",
+    "@headlessui/react": "^1.7.7",
     "@reduxjs/toolkit": "^1.9.1",
     "@tailwindcss/forms": "^0.5.3",
     "@tauri-apps/api": "^1.2.0",
