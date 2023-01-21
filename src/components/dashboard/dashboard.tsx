@@ -1,8 +1,8 @@
-import React from "react";
-import { ShowOnLogin, ShowOnLogout } from "../../components/protect/HiddenLink";
+import { ShowOnLogin, ShowOnLogout } from "../protect/HiddenLink";
 
-import Head from "../header/Head";
 import DashLogOut from "./DashLogOut";
+import Head from "../header/Head";
+import React from "react";
 
 const dashboard = () => {
   return (
