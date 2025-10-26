@@ -26,7 +26,7 @@ const sendEmail = async (options: SendEmailOptions): Promise<void> => {
 
   // Render React Email template to HTML
   const html = await render(template);
-  
+
   // Render plain text version
   const text = await render(template, { plainText: true });
 

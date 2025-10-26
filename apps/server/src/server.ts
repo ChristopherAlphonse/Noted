@@ -77,7 +77,7 @@ app.use('/api/users/forgotpassword', passwordResetLimiter);
 
 // Health Check Route
 app.get('/', (req, res) => {
-  res.json({ 
+  res.json({
     message: 'Noted API Server',
     status: 'running',
     version: '2.0.0',

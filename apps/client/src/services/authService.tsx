@@ -84,7 +84,7 @@ export const validateEmail = (email: string): boolean => {
 export const registerUser = async (userData: IRegisterRequest): Promise<IAuthResponse | undefined> => {
   try {
     const response = await api.post<IAuthResponse>('/api/users/register', userData);
-    
+
     if (response.status === 201) {
       toast.success('User Registered successfully', {
         position: 'top-right',
@@ -115,7 +115,7 @@ export const registerUser = async (userData: IRegisterRequest): Promise<IAuthRes
 export const loginUser = async (userData: ILoginRequest): Promise<IAuthResponse | undefined> => {
   try {
     const response = await api.post<IAuthResponse>('/api/users/login', userData);
-    
+
     if (response.status === 200) {
       toast.success('Login successfully', {
         position: 'top-right',
@@ -128,7 +128,7 @@ export const loginUser = async (userData: ILoginRequest): Promise<IAuthResponse 
         theme: 'light',
       });
     }
-    
+
     return response.data;
   } catch (error) {
     const message =
@@ -159,7 +159,7 @@ export const logoutUser = async (): Promise<{ message: string } | undefined> => 
         theme: 'light',
       });
     }
-    
+
     return response.data;
   } catch (error) {
     const message =
@@ -177,7 +177,7 @@ export const logoutUser = async (): Promise<{ message: string } | undefined> => 
 export const forgotPassword = async (userData: IForgotPasswordRequest): Promise<string | undefined> => {
   try {
     const response = await api.post<{ message: string }>('/api/users/forgotpassword', userData);
-    
+
     toast.success(response.data.message, {
       position: 'top-right',
       autoClose: 1100,

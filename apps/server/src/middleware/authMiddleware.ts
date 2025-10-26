@@ -15,7 +15,7 @@ interface JwtPayload {
 const protect = asyncHandler(async (req: AuthRequest, res: Response, next: NextFunction): Promise<void> => {
   try {
     const token = req.cookies.token;
-    
+
     if (!token) {
       res.status(401);
       throw new Error('Not authorized, please login');
@@ -23,7 +23,7 @@ const protect = asyncHandler(async (req: AuthRequest, res: Response, next: NextF
 
     // Verify Token
     const verified = jwt.verify(token, process.env.JWT_SECRET!) as JwtPayload;
-    
+
     // Get user id from token
     const user = await User.findById(verified.id).select('-password');
 
@@ -31,7 +31,7 @@ const protect = asyncHandler(async (req: AuthRequest, res: Response, next: NextF
       res.status(401);
       throw new Error('User not found');
     }
-    
+
     req.user = user;
     next();
   } catch (error) {

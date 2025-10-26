@@ -38,7 +38,7 @@ export const contactUs = asyncHandler(async (req: AuthRequest, res: Response): P
         message,
       }),
     });
-    
+
     res.status(200).json({ success: true, message: 'Email Sent' });
   } catch (error) {
     res.status(500);

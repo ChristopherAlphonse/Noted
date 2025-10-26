@@ -42,7 +42,7 @@ const Login: React.FC = () => {
       email,
       password,
     };
-    
+
     setIsLoading(true);
     try {
       const data = await loginUser(userData);

@@ -23,7 +23,7 @@ const generateRefreshToken = (id: string): string => {
 // Set tokens as httpOnly cookies
 const setTokenCookies = (res: Response, accessToken: string, refreshToken: string): void => {
   const isProduction = process.env.NODE_ENV === 'production';
-  
+
   // Access token cookie (15 minutes)
   res.cookie('token', accessToken, {
     path: '/',
@@ -48,19 +48,19 @@ const validatePasswordStrength = (password: string): { valid: boolean; message?:
   if (password.length < 8) {
     return { valid: false, message: 'Password must be at least 8 characters' };
   }
-  
+
   // Optional: Add more strength requirements
   const hasUpperCase = /[A-Z]/.test(password);
   const hasLowerCase = /[a-z]/.test(password);
   const hasNumbers = /\d/.test(password);
-  
+
   if (!hasUpperCase || !hasLowerCase || !hasNumbers) {
-    return { 
-      valid: false, 
-      message: 'Password must contain uppercase, lowercase, and numbers' 
+    return {
+      valid: false,
+      message: 'Password must contain uppercase, lowercase, and numbers'
     };
   }
-  
+
   return { valid: true };
 };
 
@@ -278,7 +278,7 @@ export const logout = asyncHandler(async (req: AuthRequest, res: Response): Prom
       .createHash('sha256')
       .update(refreshToken)
       .digest('hex');
-    
+
     await RefreshToken.deleteOne({ token: hashedToken });
   }
 
@@ -325,12 +325,12 @@ export const getUser = asyncHandler(async (req: AuthRequest, res: Response): Pro
 // Get Login Status
 export const loginStatus = asyncHandler(async (req: AuthRequest, res: Response): Promise<void> => {
   const token = req.cookies.token;
-  
+
   if (!token) {
     res.json(false);
     return;
   }
-  
+
   try {
     // Verify Token
     jwt.verify(token, process.env.JWT_SECRET!);
@@ -358,7 +358,7 @@ export const updateUser = asyncHandler(async (req: AuthRequest, res: Response): 
   user.photo = req.body.photo || photo;
 
   const updatedUser = await user.save();
-  
+
   res.status(200).json({
     _id: updatedUser._id,
     name: updatedUser.name,
@@ -403,7 +403,7 @@ export const changePassword = asyncHandler(async (req: AuthRequest, res: Respons
   // Save new password
   user.password = password;
   await user.save();
-  
+
   res.status(200).send('Password change successful');
 });
 
@@ -451,7 +451,7 @@ export const forgotPassword = asyncHandler(async (req: AuthRequest, res: Respons
         resetUrl: resetUrl,
       }),
     });
-    
+
     res.status(200).json({ success: true, message: 'Reset Email Sent' });
   } catch (error) {
     res.status(500);
@@ -490,7 +490,7 @@ export const resetPassword = asyncHandler(async (req: AuthRequest, res: Response
 
   // Find user
   const user = await User.findById(userToken.userId);
-  
+
   if (!user) {
     res.status(404);
     throw new Error('User not found');
@@ -498,7 +498,7 @@ export const resetPassword = asyncHandler(async (req: AuthRequest, res: Response
 
   user.password = password;
   await user.save();
-  
+
   // Delete the used token
   await Token.findByIdAndDelete(userToken._id);
 

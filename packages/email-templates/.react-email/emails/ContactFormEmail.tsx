@@ -43,18 +43,18 @@ export const ContactFormEmail: React.FC<ContactFormEmailProps> = ({
           </Section>
           <Hr style={hr} />
           <Heading style={heading}>New Contact Form Submission</Heading>
-          
+
           <Section style={infoSection}>
             <Text style={infoLabel}><strong>From:</strong></Text>
             <Text style={infoText}>{userName} ({userEmail})</Text>
-            
+
             <Text style={infoLabel}><strong>Subject:</strong></Text>
             <Text style={infoText}>{subject}</Text>
-            
+
             <Text style={infoLabel}><strong>Message:</strong></Text>
             <Text style={messageText}>{message}</Text>
           </Section>
-          
+
           <Hr style={hr} />
           <Section style={footer}>
             <Text style={footerText}>
