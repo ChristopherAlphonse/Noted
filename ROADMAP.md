@@ -175,9 +175,406 @@ logger.debug('Token refresh initiated', { userId });
 - Security audit trails
 - Integration with log management tools
 
+#### API Documentation with OpenAPI/Swagger
+
+**Priority:** MEDIUM
+**Status:** Planned
+
+Implement comprehensive API documentation with OpenAPI specification:
+
+- [ ] Install Swagger tools: `swagger-jsdoc`, `swagger-ui-express`
+- [ ] Alternative: `@nestjs/swagger` style with decorators or `tsoa` for TypeScript
+- [ ] Generate OpenAPI 3.0 specification from code
+- [ ] Create Swagger UI endpoint: `/api-docs`
+- [ ] Document all endpoints with:
+  - Request parameters
+  - Request body schemas
+  - Response schemas
+  - Authentication requirements
+  - Example requests/responses
+  - Error responses
+- [ ] Add JSDoc comments to controllers with OpenAPI tags
+- [ ] Generate TypeScript types from OpenAPI spec
+- [ ] Set up automated spec validation
+- [ ] Add spec generation to build pipeline
+- [ ] Version API documentation
+- [ ] Export OpenAPI spec as JSON/YAML
+
+**Implementation Options:**
+
+**Option 1: swagger-jsdoc (JSDoc-based)**
+
+```typescript
+// apps/server/src/config/swagger.ts
+import swaggerJsdoc from 'swagger-jsdoc';
+
+const options = {
+  definition: {
+    openapi: '3.0.0',
+    info: {
+      title: 'Noted API',
+      version: '2.0.0',
+      description: 'Secure note-taking application API',
+    },
+    servers: [
+      { url: 'http://localhost:5000', description: 'Development' },
+      { url: 'https://api.noted.app', description: 'Production' },
+    ],
+    components: {
+      securitySchemes: {
+        cookieAuth: {
+          type: 'apiKey',
+          in: 'cookie',
+          name: 'token',
+        },
+      },
+    },
+  },
+  apis: ['./src/routes/*.ts', './src/controllers/*.ts'],
+};
+
+export const swaggerSpec = swaggerJsdoc(options);
+```
+
+**Option 2: TSOA (TypeScript OpenAPI)**
+
+```typescript
+// Generates OpenAPI from TypeScript decorators
+import { Controller, Get, Post, Route, Body, Tags } from 'tsoa';
+
+@Route('api/users')
+@Tags('Authentication')
+export class UserController extends Controller {
+  @Post('/login')
+  public async login(@Body() body: ILoginRequest): Promise<IAuthResponse> {
+    // Implementation
+  }
+}
+```
+
+**Swagger UI Setup:**
+
+```typescript
+// apps/server/src/server.ts
+import swaggerUi from 'swagger-ui-express';
+import { swaggerSpec } from './config/swagger';
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, {
+  customCss: '.swagger-ui .topbar { display: none }',
+  customSiteTitle: 'Noted API Documentation',
+}));
+
+// Export spec as JSON
+app.get('/api-docs.json', (req, res) => {
+  res.setHeader('Content-Type', 'application/json');
+  res.send(swaggerSpec);
+});
+```
+
+**Example Documentation:**
+
+```typescript
+/**
+ * @swagger
+ * /api/users/login:
+ *   post:
+ *     summary: User login
+ *     tags: [Authentication]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - email
+ *               - password
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 format: email
+ *               password:
+ *                 type: string
+ *                 format: password
+ *     responses:
+ *       200:
+ *         description: Login successful
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/AuthResponse'
+ *       400:
+ *         description: Invalid credentials
+ *       429:
+ *         description: Too many requests
+ */
+```
+
+**Features to Document:**
+
+- All authentication endpoints (login, register, refresh, logout)
+- User management (profile, password change)
+- Password reset flow
+- Contact form
+- File upload endpoints (when MinIO is integrated)
+- Rate limiting information
+- Error response formats
+
+**Tools Integration:**
+
+- [ ] Postman collection generation
+- [ ] OpenAPI client generation for frontend
+- [ ] API testing with documented contracts
+- [ ] Versioning strategy (v1, v2)
+
+**Benefits:**
+
+- Self-documenting API
+- Interactive API testing via Swagger UI
+- Client SDK generation
+- Contract testing capabilities
+- Better developer onboarding
+- API versioning support
+- Frontend-backend contract validation
+
+**Alternative Tools to Consider:**
+
+- **Redoc** - Better looking documentation UI
+- **Stoplight Studio** - Visual API designer
+- **Postman** - Auto-generate from OpenAPI spec
+- **Scalar** - Modern API documentation
+
+#### REST API Enhancement & Best Practices
+
+**Priority:** MEDIUM
+**Status:** Planned
+
+Enhance the current REST API with improved type safety and developer experience:
+
+##### 1. Shared API Client Package
+
+Create a centralized, type-safe API client:
+
+- [ ] Create `packages/api-client/` package
+- [ ] Build type-safe wrapper around axios
+- [ ] Export all API methods with proper types
+- [ ] Add automatic error handling
+- [ ] Include retry logic
+- [ ] Add request/response logging in development
+
+**Implementation:**
+
+```typescript
+// packages/api-client/src/index.ts
+import axios from 'axios';
+import type {
+  ILoginRequest,
+  IAuthResponse,
+  IRegisterRequest,
+  IUserResponse
+} from '@noted/types';
+
+const apiClient = axios.create({
+  baseURL: process.env.VITE_APP_BACKEND_URL,
+  withCredentials: true,
+});
+
+export const api = {
+  auth: {
+    login: (data: ILoginRequest) =>
+      apiClient.post<IAuthResponse>('/api/users/login', data),
+    register: (data: IRegisterRequest) =>
+      apiClient.post<IAuthResponse>('/api/users/register', data),
+    logout: () =>
+      apiClient.get<{ message: string }>('/api/users/logout'),
+    refresh: () =>
+      apiClient.post<{ message: string }>('/api/users/refresh'),
+  },
+  users: {
+    getProfile: () =>
+      apiClient.get<IUserResponse>('/api/users/getuser'),
+    updateProfile: (data: Partial<IUserResponse>) =>
+      apiClient.patch<IUserResponse>('/api/users/updateuser', data),
+  },
+};
+```
+
+**Benefits:**
+
+- Single source of truth for API calls
+- Autocomplete for all endpoints
+- Type checking at compile time
+- Easier to mock for testing
+- Centralized error handling
+
+##### 2. OpenAPI Client Generation
+
+Generate TypeScript client from OpenAPI specification:
+
+- [ ] Install `openapi-typescript-codegen` or `openapi-typescript`
+- [ ] Add generation script: `pnpm generate:api-client`
+- [ ] Generate client on each build
+- [ ] Add generated client to `.gitignore`
+- [ ] Use generated types in frontend
+- [ ] Add CI check for API contract drift
+
+**Script:**
+
+```json
+{
+  "scripts": {
+    "generate:api-client": "openapi-typescript http://localhost:5000/api-docs.json -o packages/api-client/src/generated.ts"
+  }
+}
+```
+
+**Benefits:**
+
+- Always in sync with backend
+- Zero manual type definitions
+- Catch breaking changes early
+- Generate SDK automatically
+
+##### 3. Runtime Type Validation
+
+Add runtime validation to ensure API responses match types:
+
+- [ ] Install `zod` for runtime schema validation
+- [ ] Create Zod schemas from `@noted/types`
+- [ ] Add validation middleware
+- [ ] Log validation errors in development
+- [ ] Add contract testing suite
+
+**Implementation:**
+
+```typescript
+// packages/types/src/schemas.ts
+import { z } from 'zod';
+
+export const AuthResponseSchema = z.object({
+  _id: z.string(),
+  name: z.string(),
+  email: z.string().email(),
+  photo: z.string(),
+  phone: z.string(),
+  bio: z.string(),
+});
+
+export const LoginRequestSchema = z.object({
+  email: z.string().email(),
+  password: z.string().min(8),
+});
+
+// Usage in API client
+const response = await api.auth.login(data);
+const validated = AuthResponseSchema.parse(response.data);
+```
+
+**Benefits:**
+
+- Catch type mismatches at runtime
+- Better error messages
+- Production safety
+- Contract testing
+
+##### 4. API Versioning Strategy
+
+Implement proper API versioning for future changes:
+
+- [ ] Move current endpoints to `/api/v1/`
+- [ ] Create versioning middleware
+- [ ] Document deprecation policy
+- [ ] Add version headers
+- [ ] Support multiple versions simultaneously
+
+**Structure:**
+
+```
+apps/server/src/
+├── routes/
+│   ├── v1/
+│   │   ├── userRoute.ts
+│   │   └── contactRoute.ts
+│   └── v2/  (future)
+└── server.ts
+```
+
+**Benefits:**
+
+- Non-breaking changes
+- Gradual migration path
+- Better API lifecycle management
+- Clear deprecation timeline
+
+##### 5. Enhanced Error Handling
+
+Standardize error responses across all endpoints:
+
+- [ ] Create error classes hierarchy
+- [ ] Implement error codes (e.g., `AUTH_001`, `VALIDATION_002`)
+- [ ] Add error response types to `@noted/types`
+- [ ] Document all possible errors in OpenAPI
+- [ ] Add error tracking IDs
+
+**Implementation:**
+
+```typescript
+// packages/types/src/errors.ts
+export interface IApiError {
+  code: string;
+  message: string;
+  statusCode: number;
+  details?: unknown;
+  requestId?: string;
+  timestamp: string;
+}
+
+// Example error codes
+export enum ApiErrorCode {
+  AUTH_INVALID_CREDENTIALS = 'AUTH_001',
+  AUTH_TOKEN_EXPIRED = 'AUTH_002',
+  USER_NOT_FOUND = 'USER_001',
+  VALIDATION_FAILED = 'VAL_001',
+}
+```
+
+**Benefits:**
+
+- Consistent error format
+- Easy error tracking
+- Better debugging
+- Frontend can handle errors systematically
+
+##### 6. Request/Response Interceptors
+
+Enhance axios interceptors with additional functionality:
+
+- [ ] Add request ID generation
+- [ ] Implement request timing
+- [ ] Add performance monitoring
+- [ ] Create request queue for offline support
+- [ ] Add request deduplication
+
+##### 7. API Client Testing
+
+Comprehensive testing for API client:
+
+- [ ] Unit tests for API client methods
+- [ ] Mock server responses
+- [ ] Test error handling
+- [ ] Test retry logic
+- [ ] Integration tests with real server
+
+**Benefits:**
+
+- Reliable API layer
+- Catch regressions early
+- Better confidence in changes
+- Documentation through tests
+
 ---
 
-## Planned (v2.2) - Testing & Quality
+## 📋 Planned (v2.2) - Testing & Quality
 
 ### Testing Infrastructure
 
@@ -295,7 +692,6 @@ logger.debug('Token refresh initiated', { userId });
 ### Short Term
 
 - [ ] Implement redux-persist properly
-- [ ] Add API documentation (Swagger/OpenAPI)
 - [ ] Create development guidelines
 - [ ] Add code quality metrics
 - [ ] Set up automated dependency updates
@@ -313,12 +709,72 @@ logger.debug('Token refresh initiated', { userId });
 
 ### Documentation
 
-- [ ] API documentation
 - [ ] Architecture decision records (ADRs)
 - [ ] Contributing guidelines
 - [ ] Code style guide
 - [ ] Deployment guide
 - [ ] Troubleshooting guide
+
+### Architecture Decisions
+
+#### ADR-001: REST API over tRPC
+
+**Decision:** Continue using REST API architecture instead of migrating to tRPC
+
+**Status:** Accepted (January 2025)
+
+**Context:**
+
+- Application has working REST API with full TypeScript types
+- Shared `@noted/types` package provides type safety
+- Refresh token authentication already implemented
+- Future plans include public API, mobile apps, and integrations
+
+**Rationale:**
+
+**Pros of REST:**
+
+- ✅ Already implemented and production-ready
+- ✅ Universal standard - any client can consume
+- ✅ Better tooling (Postman, Swagger, curl)
+- ✅ Public API ready for third-party integrations
+- ✅ Works with Tauri desktop app
+- ✅ Team familiarity
+- ✅ OpenAPI documentation support
+- ✅ Standard HTTP caching
+
+**Cons of tRPC Migration:**
+
+- ❌ 2-3 weeks migration effort
+- ❌ TypeScript-only clients
+- ❌ Harder for native mobile apps
+- ❌ Limited external tooling
+- ❌ No automatic OpenAPI docs
+- ❌ Learning curve for team
+
+**Enhancement Strategy:**
+Instead of migrating to tRPC, enhance REST with:
+
+1. Shared API client package (`@noted/api-client`)
+2. OpenAPI/Swagger documentation
+3. Generated TypeScript client from OpenAPI spec
+4. Runtime validation with Zod
+5. API versioning strategy
+6. Standardized error handling
+
+**Consequences:**
+
+- Maintain REST endpoints with enhanced type safety
+- Use OpenAPI for documentation and client generation
+- Keep flexibility for public API and integrations
+- Avoid large migration effort
+- Can reconsider tRPC for internal admin tools if needed
+
+**Alternatives Considered:**
+
+- Full tRPC migration (rejected - too much effort, limits flexibility)
+- Hybrid approach (REST public + tRPC internal) (deferred - adds complexity)
+- GraphQL (rejected - overkill for current needs)
 
 ### Developer Experience
 
@@ -337,12 +793,17 @@ logger.debug('Token refresh initiated', { userId });
 - Docker local development setup
 - MinIO object storage integration
 - Structured logging implementation
+- OpenAPI/Swagger API documentation
+- Shared API client package
+- Runtime type validation (Zod)
 - Testing infrastructure setup
 
 ### Q2 2025
 
 - Two-factor authentication
 - Email verification
+- API versioning (v1, v2)
+- Enhanced error handling with error codes
 - Test coverage >80%
 - Performance monitoring
 
