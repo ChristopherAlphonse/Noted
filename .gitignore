@@ -1,6 +1,24 @@
-/server
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Production builds
+dist/
+build/
+.next/
+out/
+
+# Turborepo cache
+.turbo/
+
+# Environment variables
 .env
-node_modules
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
 # Logs
 logs
 *.log
@@ -9,11 +27,6 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
-
-node_modules
-dist
-dist-ssr
-*.local
 
 # Editor directories and files
 .vscode/*
@@ -25,3 +38,32 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Testing
+coverage
+
+# Misc
+.cache
+.parcel-cache
+.stylelintcache
+
+# Tauri
+apps/client/src-tauri/target/
+
+# Uploads
+apps/server/uploads/
+Server/uploads/
+
+# OS
+Thumbs.db
+
+# Package manager locks (keep pnpm-lock.yaml only)
+package-lock.json
+yarn.lock
+
+# TypeScript
+*.tsbuildinfo
+.tsbuildinfo
+
+# Debug
+.vite-inspect/

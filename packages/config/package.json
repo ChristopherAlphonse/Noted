@@ -1,0 +1,11 @@
+{
+  "name": "@noted/config",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./index.js",
+  "files": [
+    "biome.json",
+    "tsconfig.*.json"
+  ]
+}
+

@@ -1,0 +1,22 @@
+{
+  "name": "@noted/email-templates",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./src/index.tsx",
+  "scripts": {
+    "dev": "email dev",
+    "build": "tsc",
+    "type-check": "tsc --noEmit",
+    "clean": "rimraf dist"
+  },
+  "dependencies": {
+    "@noted/types": "workspace:*",
+    "@react-email/components": "^0.5.7",
+    "react": "^19.2.0",
+    "react-email": "^4.3.2"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.2",
+    "typescript": "^5.9.3"
+  }
+}
