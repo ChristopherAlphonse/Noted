@@ -27,28 +27,28 @@ jobs:
         with:
           script: |
             const testLabel = '${{ github.event.inputs.test_label }}';
-            
+
             console.log('🧪 Testing Review Label System');
             console.log('Test Label:', testLabel);
-            
+
             // Check if workflows exist
             const workflows = [
               'label-triggered-reviews.yml',
-              'copilot-enhanced-review.yml', 
+              'copilot-enhanced-review.yml',
               'review-notifications.yml'
             ];
-            
+
             console.log('✅ Workflow files configured:');
             workflows.forEach(workflow => {
               console.log(`  - ${workflow}`);
             });
-            
+
             // Validate label format
             const validLabels = ['copilot-review', 'github-actions-review', 'coderabbitai-review'];
             const isValid = validLabels.includes(testLabel);
-            
+
             console.log('Label validation:', isValid ? '✅ Valid' : '❌ Invalid');
-            
+
             if (isValid) {
               console.log('🎉 Review system is ready to use!');
               console.log('');
