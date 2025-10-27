@@ -1,0 +1,260 @@
+name: GitHub Copilot Enhanced Review
+
+on:
+  pull_request:
+    types: [labeled]
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+
+jobs:
+  copilot-enhanced-review:
+    runs-on: ubuntu-latest
+    if: contains(github.event.label.name, 'copilot-review')
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'yarn'
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@v42
+        with:
+          files: |
+            **/*.{js,jsx,ts,tsx,json,md,yml,yaml}
+          files_ignore: |
+            node_modules/**
+            dist/**
+            build/**
+            target/**
+
+      - name: Setup analysis environment
+        run: |
+          echo " **GitHub Copilot Enhanced Review**" > copilot-analysis.md
+          echo "" >> copilot-analysis.md
+          echo "##  Code Analysis Summary" >> copilot-analysis.md
+          echo "" >> copilot-analysis.md
+
+      - name: TypeScript Analysis
+        if: steps.changed-files.outputs.any_changed == 'true'
+        run: |
+          echo "###  TypeScript Analysis" >> copilot-analysis.md
+
+          if yarn tsc --noEmit --pretty 2>&1 | tee ts-analysis.txt; then
+            echo " TypeScript compilation successful - no type errors found" >> copilot-analysis.md
+          else
+            echo "❌ TypeScript issues detected:" >> copilot-analysis.md
+            echo "" >> copilot-analysis.md
+            echo "\`\`\`typescript" >> copilot-analysis.md
+            head -20 ts-analysis.txt >> copilot-analysis.md
+            echo "\`\`\`" >> copilot-analysis.md
+
+            echo "" >> copilot-analysis.md
+            echo "** Copilot Suggestions:**" >> copilot-analysis.md
+            echo "- Review type definitions for accuracy" >> copilot-analysis.md
+            echo "- Ensure all imports have proper types" >> copilot-analysis.md
+            echo "- Consider using stricter TypeScript config" >> copilot-analysis.md
+          fi
+          echo "" >> copilot-analysis.md
+
+      - name: ESLint Analysis with Copilot Intelligence
+        if: steps.changed-files.outputs.any_changed == 'true'
+        run: |
+          echo "###  Code Quality Analysis (ESLint)" >> copilot-analysis.md
+
+          if yarn lint --format=compact 2>&1 | tee eslint-analysis.txt; then
+            echo " ESLint passed - code follows established patterns" >> copilot-analysis.md
+          else
+            echo " Code quality issues found:" >> copilot-analysis.md
+            echo "" >> copilot-analysis.md
+            echo "\`\`\`" >> copilot-analysis.md
+            head -15 eslint-analysis.txt >> copilot-analysis.md
+            echo "\`\`\`" >> copilot-analysis.md
+
+            echo "" >> copilot-analysis.md
+            echo "** Copilot Recommendations:**" >> copilot-analysis.md
+            echo "- Fix linting issues for better code consistency" >> copilot-analysis.md
+            echo "- Consider updating ESLint rules for modern patterns" >> copilot-analysis.md
+            echo "- Review unused variables and imports" >> copilot-analysis.md
+          fi
+          echo "" >> copilot-analysis.md
+
+      - name: Security Analysis
+        if: steps.changed-files.outputs.any_changed == 'true'
+        run: |
+          echo "### Security Analysis" >> copilot-analysis.md
+
+          # Check for common security patterns
+          if grep -r "eval\|innerHTML\|document.write\|dangerouslySetInnerHTML" ${{ steps.changed-files.outputs.all_changed_files }} 2>/dev/null; then
+            echo " Potential security concerns detected:" >> copilot-analysis.md
+            echo "- Found potentially unsafe code patterns" >> copilot-analysis.md
+            echo "" >> copilot-analysis.md
+            echo "** Copilot Security Suggestions:**" >> copilot-analysis.md
+            echo "- Review use of \`eval()\` and dynamic code execution" >> copilot-analysis.md
+            echo "- Validate \`innerHTML\` usage for XSS prevention" >> copilot-analysis.md
+            echo "- Consider using \`textContent\` instead of \`innerHTML\`" >> copilot-analysis.md
+            echo "- Sanitize any user inputs before rendering" >> copilot-analysis.md
+          else
+            echo " No obvious security concerns in changed files" >> copilot-analysis.md
+          fi
+          echo "" >> copilot-analysis.md
+
+      - name: React/Component Analysis
+        if: steps.changed-files.outputs.any_changed == 'true'
+        run: |
+          echo "###  React Component Analysis" >> copilot-analysis.md
+
+          # Check for React patterns in changed files
+          react_files=$(echo "${{ steps.changed-files.outputs.all_changed_files }}" | grep -E "\.(jsx|tsx)$" || true)
+
+          if [ -n "$react_files" ]; then
+            echo " React files modified: $(echo $react_files | wc -w)" >> copilot-analysis.md
+            echo "" >> copilot-analysis.md
+
+            # Check for hooks usage
+            if grep -r "useState\|useEffect\|useCallback\|useMemo" $react_files 2>/dev/null; then
+              echo "** Hooks Usage Detected:**" >> copilot-analysis.md
+              echo "** Copilot Hook Suggestions:**" >> copilot-analysis.md
+              echo "- Ensure \`useEffect\` dependencies are complete" >> copilot-analysis.md
+              echo "- Consider \`useCallback\` for expensive computations" >> copilot-analysis.md
+              echo "- Verify \`useMemo\` is used appropriately" >> copilot-analysis.md
+              echo "- Check for potential infinite re-render loops" >> copilot-analysis.md
+            fi
+
+            # Check for accessibility
+            if grep -r "aria-\|role=\|alt=\|tabIndex" $react_files 2>/dev/null; then
+              echo "-  Accessibility attributes found" >> copilot-analysis.md
+            else
+              echo "-  Consider adding accessibility attributes" >> copilot-analysis.md
+            fi
+          else
+            echo "No React components modified in this PR" >> copilot-analysis.md
+          fi
+          echo "" >> copilot-analysis.md
+
+      - name: Performance Analysis
+        if: steps.changed-files.outputs.any_changed == 'true'
+        run: |
+          echo "###  Performance Analysis" >> copilot-analysis.md
+
+          # Check for potential performance issues
+          perf_patterns=0
+
+          if grep -r "map.*map\|filter.*filter\|forEach.*forEach" ${{ steps.changed-files.outputs.all_changed_files }} 2>/dev/null; then
+            echo " Potential performance concerns:" >> copilot-analysis.md
+            echo "- Nested array operations detected" >> copilot-analysis.md
+            perf_patterns=1
+          fi
+
+          if grep -r "console\.log\|console\.warn\|console\.error" ${{ steps.changed-files.outputs.all_changed_files }} 2>/dev/null; then
+            echo "- Console statements found (consider removing for production)" >> copilot-analysis.md
+            perf_patterns=1
+          fi
+
+          if [ $perf_patterns -eq 1 ]; then
+            echo "" >> copilot-analysis.md
+            echo "**Copilot Performance Suggestions:**" >> copilot-analysis.md
+            echo "- Consider chaining array operations for efficiency" >> copilot-analysis.md
+            echo "- Remove debug console statements before production" >> copilot-analysis.md
+            echo "- Use React.memo() for expensive components" >> copilot-analysis.md
+            echo "- Consider lazy loading for large components" >> copilot-analysis.md
+          else
+            echo " No obvious performance concerns detected" >> copilot-analysis.md
+          fi
+          echo "" >> copilot-analysis.md
+
+      - name: Architecture & Best Practices Analysis
+        if: steps.changed-files.outputs.any_changed == 'true'
+        run: |
+          echo "###  Architecture & Best Practices" >> copilot-analysis.md
+          echo "" >> copilot-analysis.md
+
+          # Check file organization
+          frontend_files=$(echo "${{ steps.changed-files.outputs.all_changed_files }}" | grep "^src/" | wc -l)
+          backend_files=$(echo "${{ steps.changed-files.outputs.all_changed_files }}" | grep "^Server/" | wc -l)
+          tauri_files=$(echo "${{ steps.changed-files.outputs.all_changed_files }}" | grep "^src-tauri/" | wc -l)
+
+          echo "** Files Modified:**" >> copilot-analysis.md
+          echo "- Frontend (React): $frontend_files files" >> copilot-analysis.md
+          echo "- Backend (Node.js): $backend_files files" >> copilot-analysis.md
+          echo "- Desktop (Tauri): $tauri_files files" >> copilot-analysis.md
+          echo "" >> copilot-analysis.md
+
+          echo "** Copilot Architecture Recommendations:**" >> copilot-analysis.md
+
+          if [ $frontend_files -gt 0 ] && [ $backend_files -gt 0 ]; then
+            echo "- Full-stack changes detected - ensure API contracts are maintained" >> copilot-analysis.md
+            echo "- Consider updating API documentation" >> copilot-analysis.md
+          fi
+
+          if [ $tauri_files -gt 0 ]; then
+            echo "- Tauri changes detected - verify cross-platform compatibility" >> copilot-analysis.md
+            echo "- Test desktop app functionality on multiple platforms" >> copilot-analysis.md
+          fi
+
+          echo "- Follow consistent naming conventions across the codebase" >> copilot-analysis.md
+          echo "- Ensure proper separation of concerns" >> copilot-analysis.md
+          echo "- Consider adding unit tests for new functionality" >> copilot-analysis.md
+
+      - name: Final Recommendations
+        run: |
+          echo "" >> copilot-analysis.md
+          echo "##  Final Copilot Recommendations" >> copilot-analysis.md
+          echo "" >> copilot-analysis.md
+          echo "Based on the analysis above, here are the key areas to focus on:" >> copilot-analysis.md
+          echo "" >> copilot-analysis.md
+          echo "1. **Code Quality**: Address any TypeScript and ESLint issues" >> copilot-analysis.md
+          echo "2. **Security**: Review any flagged security patterns" >> copilot-analysis.md
+          echo "3. **Performance**: Optimize any performance bottlenecks" >> copilot-analysis.md
+          echo "4. **Best Practices**: Follow React and Node.js best practices" >> copilot-analysis.md
+          echo "5. **Testing**: Add tests for new functionality" >> copilot-analysis.md
+          echo "" >> copilot-analysis.md
+          echo "---" >> copilot-analysis.md
+          echo "*This analysis was generated by GitHub Copilot enhanced workflow. For more detailed review, consider using the other review labels: \`github-actions-review\` or \`coderabbitai-review\`.*" >> copilot-analysis.md
+
+      - name: Post Copilot Analysis
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const analysis = fs.readFileSync('copilot-analysis.md', 'utf8');
+
+            await github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: analysis
+            });
+
+      - name: Remove copilot-review label
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.removeLabel({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              name: 'copilot-review'
+            });
+
+            // Add a completion label
+            await github.rest.issues.addLabels({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: ['copilot-reviewed']
+            });

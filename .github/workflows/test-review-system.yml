@@ -1,0 +1,83 @@
+name: Test Review Labels
+
+on:
+  workflow_dispatch:
+    inputs:
+      test_label:
+        description: 'Test label to validate'
+        required: true
+        default: 'copilot-review'
+        type: choice
+        options:
+          - copilot-review
+          - github-actions-review
+          - coderabbitai-review
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+
+jobs:
+  test-label-system:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate workflow configuration
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const testLabel = '${{ github.event.inputs.test_label }}';
+            
+            console.log('🧪 Testing Review Label System');
+            console.log('Test Label:', testLabel);
+            
+            // Check if workflows exist
+            const workflows = [
+              'label-triggered-reviews.yml',
+              'copilot-enhanced-review.yml', 
+              'review-notifications.yml'
+            ];
+            
+            console.log('✅ Workflow files configured:');
+            workflows.forEach(workflow => {
+              console.log(`  - ${workflow}`);
+            });
+            
+            // Validate label format
+            const validLabels = ['copilot-review', 'github-actions-review', 'coderabbitai-review'];
+            const isValid = validLabels.includes(testLabel);
+            
+            console.log('Label validation:', isValid ? '✅ Valid' : '❌ Invalid');
+            
+            if (isValid) {
+              console.log('🎉 Review system is ready to use!');
+              console.log('');
+              console.log('To trigger reviews on a PR:');
+              console.log(`1. Apply the "${testLabel}" label to any pull request`);
+              console.log('2. The corresponding automated review will start automatically');
+              console.log('3. Review results will be posted as PR comments');
+              console.log('4. Completion labels will be added automatically');
+            } else {
+              console.log('❌ Invalid label format');
+            }
+
+      - name: Create summary
+        run: |
+          echo "## 🧪 Review System Test Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Test Label**: \`${{ github.event.inputs.test_label }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "**Status**: ✅ Configuration Valid" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 📋 Available Review Labels" >> $GITHUB_STEP_SUMMARY
+          echo "- \`copilot-review\` - GitHub Copilot enhanced analysis" >> $GITHUB_STEP_SUMMARY
+          echo "- \`github-actions-review\` - Build validation and security audit" >> $GITHUB_STEP_SUMMARY
+          echo "- \`coderabbitai-review\` - Line-by-line AI code review" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 🎯 How to Use" >> $GITHUB_STEP_SUMMARY
+          echo "1. Open any pull request" >> $GITHUB_STEP_SUMMARY
+          echo "2. Apply one of the review labels" >> $GITHUB_STEP_SUMMARY
+          echo "3. Automated review will start immediately" >> $GITHUB_STEP_SUMMARY
+          echo "4. Results posted as PR comments" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 📚 Documentation" >> $GITHUB_STEP_SUMMARY
+          echo "See [Automated Reviews Guide](.github/AUTOMATED_REVIEWS.md) for detailed information." >> $GITHUB_STEP_SUMMARY

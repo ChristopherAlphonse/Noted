@@ -1,0 +1,228 @@
+name: Review Status Notifications
+
+on:
+  workflow_run:
+    workflows:
+      - "Label Triggered Code Reviews"
+      - "GitHub Copilot Enhanced Review"
+    types:
+      - completed
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+
+jobs:
+  notify-completion:
+    runs-on: ubuntu-latest
+    if: github.event.workflow_run.event == 'pull_request'
+
+    steps:
+      - name: Notify review completion
+        uses: actions/github-script@v7
+        with:
+          script: |
+            // Get the PR associated with this workflow run
+            const { data: pullRequests } = await github.rest.pulls.list({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              head: `${context.repo.owner}:${context.payload.workflow_run.head_branch}`,
+              state: 'open'
+            });
+
+            if (pullRequests.length === 0) {
+              console.log('No open PR found for this branch');
+              return;
+            }
+
+            const pr = pullRequests[0];
+            const prNumber = pr.number;
+            const workflowName = context.payload.workflow_run.name;
+            const conclusion = context.payload.workflow_run.conclusion;
+            const runUrl = context.payload.workflow_run.html_url;
+
+            let emoji = '✅';
+            let status = 'completed successfully';
+
+            if (conclusion === 'failure') {
+              emoji = '❌';
+              status = 'failed';
+            } else if (conclusion === 'cancelled') {
+              emoji = '⚠️';
+              status = 'was cancelled';
+            }
+
+            // Add completion labels based on workflow
+            let completionLabel = '';
+            if (workflowName.includes('Copilot')) {
+              completionLabel = 'copilot-reviewed';
+            } else if (workflowName.includes('Label Triggered')) {
+              // Check current labels to determine which review completed
+              const currentLabels = pr.labels.map(label => label.name);
+              if (currentLabels.includes('github-actions-review')) {
+                completionLabel = 'actions-reviewed';
+              } else if (currentLabels.includes('coderabbitai-review')) {
+                completionLabel = 'coderabbit-reviewed';
+              }
+            }
+
+            // Add completion label if workflow succeeded
+            if (conclusion === 'success' && completionLabel) {
+              try {
+                await github.rest.issues.addLabels({
+                  issue_number: prNumber,
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  labels: [completionLabel]
+                });
+              } catch (error) {
+                console.log(`Label ${completionLabel} may already exist: ${error.message}`);
+              }
+            }
+
+            // Create status notification comment
+            let message = '## ' + emoji + ' Automated Review Status\\n\\n';
+            message += '**Workflow**: ' + workflowName + '\\n';
+            message += '**Status**: ' + status + '\\n';
+            message += '**Details**: [View workflow run](' + runUrl + ')\\n\\n';
+
+            if (conclusion === 'success') {
+              message += ' Your automated review has completed! Check the comments above for detailed analysis and recommendations.\\n\\n';
+            } else {
+              message += ' The review encountered an issue. Please check the workflow logs for details and try again if needed.\\n\\n';
+            }
+
+            if (completionLabel) {
+              message += '**Label Added**: \\`' + completionLabel + '\\`\\n\\n';
+            }
+
+            message += '---\\n';
+            message += '*To run additional reviews, apply the appropriate labels: \\`copilot-review\\`, \\`github-actions-review\\`, \\`coderabbitai-review\\`*';
+
+            await github.rest.issues.createComment({
+              issue_number: prNumber,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: message
+            });
+
+  update-review-dashboard:
+    runs-on: ubuntu-latest
+    if: github.event.workflow_run.event == 'pull_request' && github.event.workflow_run.conclusion == 'success'
+
+    steps:
+      - name: Update review dashboard
+        uses: actions/github-script@v7
+        with:
+          script: |
+            // Get the PR associated with this workflow run
+            const { data: pullRequests } = await github.rest.pulls.list({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              head: `${context.repo.owner}:${context.payload.workflow_run.head_branch}`,
+              state: 'open'
+            });
+
+            if (pullRequests.length === 0) return;
+
+            const pr = pullRequests[0];
+            const prNumber = pr.number;
+
+            // Get all comments on the PR
+            const { data: comments } = await github.rest.issues.listComments({
+              issue_number: prNumber,
+              owner: context.repo.owner,
+              repo: context.repo.repo
+            });
+
+            // Count different types of review comments
+            const reviewComments = {
+              copilot: comments.filter(c => c.body.includes('GitHub Copilot') && c.body.includes('Review')).length,
+              actions: comments.filter(c => c.body.includes('GitHub Actions') && c.body.includes('Review')).length,
+              coderabbit: comments.filter(c => c.body.includes('CodeRabbit') && c.body.includes('Review')).length
+            };
+
+            const labels = pr.labels.map(label => label.name);
+            const completedReviews = labels.filter(label => label.endsWith('-reviewed'));
+            const pendingReviews = labels.filter(label => label.endsWith('-review'));
+
+            // Create or update dashboard
+            let dashboardMessage = '## Review Dashboard\\n\\n';
+            dashboardMessage += '**PR**: #' + prNumber + ' - ' + pr.title + '\\n';
+            dashboardMessage += '**Branch**: `' + pr.head.ref + '`\\n\\n';
+
+            dashboardMessage += '###  Completed Reviews (' + completedReviews.length + ')\\n';
+            if (completedReviews.length > 0) {
+              for (const label of completedReviews) {
+                const reviewType = label.replace('-reviewed', '');
+                let emoji = '✅';
+                if (reviewType.includes('copilot')) emoji = '🤖';
+                else if (reviewType.includes('actions')) emoji = '🔧';
+                else if (reviewType.includes('coderabbit')) emoji = '🐰';
+
+                const displayName = reviewType.charAt(0).toUpperCase() + reviewType.slice(1);
+                dashboardMessage += '- ' + emoji + ' **' + displayName + '** Review\\n';
+              }
+            } else {
+              dashboardMessage += 'No reviews completed yet\\n';
+            }
+
+            dashboardMessage += '\\n### ⏳ Pending Reviews (' + pendingReviews.length + ')\\n';
+            if (pendingReviews.length > 0) {
+              for (const label of pendingReviews) {
+                dashboardMessage += '- ⏱️ ' + label + '\\n';
+              }
+            } else {
+              dashboardMessage += 'No pending reviews\\n';
+            }
+
+            dashboardMessage += '\\n### Review Statistics\\n';
+            dashboardMessage += '- **Copilot Reviews**: ' + reviewComments.copilot + ' comments\\n';
+            dashboardMessage += '- **Actions Reviews**: ' + reviewComments.actions + ' comments\\n';
+            dashboardMessage += '- **CodeRabbit Reviews**: ' + reviewComments.coderabbit + ' comments\\n';
+            const totalComments = reviewComments.copilot + reviewComments.actions + reviewComments.coderabbit;
+            dashboardMessage += '- **Total Review Comments**: ' + totalComments + '\\n\\n';
+
+            dashboardMessage += '###  Available Actions\\n';
+            const allReviews = ['copilot-review', 'github-actions-review', 'coderabbitai-review'];
+            const availableReviews = allReviews.filter(review =>
+              !labels.some(label => label.replace('-reviewed', '-review') === review)
+            );
+
+            if (availableReviews.length > 0) {
+              for (const review of availableReviews) {
+                const reviewName = review.split('-')[0];
+                dashboardMessage += '- Apply `' + review + '` label to trigger ' + reviewName + ' review\\n';
+              }
+            } else {
+              dashboardMessage += ' All review types have been triggered!\\n';
+            }
+
+            dashboardMessage += '\\n---\\n';
+            const now = new Date();
+            const dateStr = now.toISOString().split('T')[0];
+            const timeStr = now.toTimeString().split(' ')[0];
+            dashboardMessage += '*Dashboard last updated: ' + dateStr + ' at ' + timeStr + ' UTC*';
+
+            // Find existing dashboard comment
+            const existingDashboard = comments.find(comment =>
+              comment.body.includes('Review Dashboard') &&
+              comment.user.type === 'Bot'
+            );
+
+            if (existingDashboard) {
+              await github.rest.issues.updateComment({
+                comment_id: existingDashboard.id,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: dashboardMessage
+              });
+            } else {
+              await github.rest.issues.createComment({
+                issue_number: prNumber,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: dashboardMessage
+              });
+            }

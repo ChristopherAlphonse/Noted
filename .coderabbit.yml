@@ -1,0 +1,185 @@
+
+reviews:
+
+  auto_review: false
+  request_changes_threshold: 2
+
+  review_depth: comprehensive
+
+  languages:
+    - typescript
+    - javascript
+    - jsx
+    - tsx
+    - json
+    - yaml
+    - markdown
+    - rust
+
+
+path_rules:
+
+  "src/**":
+    focus:
+      - react_patterns
+      - typescript_best_practices
+      - accessibility
+      - performance
+      - security
+
+  "Server/**":
+    focus:
+      - security_vulnerabilities
+      - authentication
+      - data_validation
+      - error_handling
+      - api_design
+
+  "src-tauri/**":
+    focus:
+      - rust_best_practices
+      - security
+      - memory_safety
+      - cross_platform_compatibility
+
+  "*.json":
+    focus:
+      - configuration_security
+      - dependency_analysis
+
+  ".github/**":
+    focus:
+      - workflow_security
+      - best_practices
+      - performance
+
+
+issues:
+  security:
+    enabled: true
+    severity: high
+    categories:
+      - sql_injection
+      - xss
+      - csrf
+      - authentication_bypass
+      - data_exposure
+      - dependency_vulnerabilities
+
+  performance:
+    enabled: true
+    severity: medium
+    categories:
+      - bundle_size
+      - render_blocking
+      - memory_leaks
+      - inefficient_queries
+      - unnecessary_re_renders
+
+  quality:
+    enabled: true
+    severity: medium
+    categories:
+      - code_duplication
+      - complexity
+      - maintainability
+      - type_safety
+      - error_handling
+
+focus_areas:
+  react:
+    - component_composition
+    - hooks_usage
+    - state_management
+    - prop_types
+    - accessibility
+    - performance_optimization
+
+  nodejs:
+    - async_await_patterns
+    - error_handling
+    - input_validation
+    - security_middleware
+    - database_queries
+    - api_design
+
+  typescript:
+    - type_definitions
+    - generic_usage
+    - interface_design
+    - enum_usage
+    - strict_mode_compliance
+
+  tauri:
+    - command_security
+    - ipc_patterns
+    - resource_management
+    - cross_platform_code
+
+exclude:
+  paths:
+    - "node_modules/**"
+    - "dist/**"
+    - "build/**"
+    - "target/**"
+    - "*.lock"
+    - "yarn.lock"
+    - "package-lock.json"
+    - "*.log"
+
+  file_types:
+    - ".png"
+    - ".jpg"
+    - ".jpeg"
+    - ".gif"
+    - ".svg"
+    - ".ico"
+    - ".mp4"
+    - ".mov"
+
+
+custom_rules:
+  auth_patterns:
+    description: "Check authentication and authorization patterns"
+    paths: ["Server/middleWare/**", "src/services/**"]
+    rules:
+      - "Ensure proper JWT validation"
+      - "Check for secure session management"
+      - "Validate user input sanitization"
+
+  react_patterns:
+    description: "Validate React component best practices"
+    paths: ["src/components/**", "src/pages/**"]
+    rules:
+      - "Check for proper prop typing"
+      - "Ensure accessibility attributes"
+      - "Validate error boundaries usage"
+      - "Check for memory leak patterns"
+
+  api_security:
+    description: "Review API endpoint security"
+    paths: ["Server/routes/**", "Server/controllers/**"]
+    rules:
+      - "Validate input sanitization"
+      - "Check rate limiting implementation"
+      - "Ensure proper error messages"
+      - "Validate authentication middleware usage"
+
+
+comments:
+  style: constructive
+  include_suggestions: true
+  include_examples: true
+  reference_docs: true
+  group_issues: true
+
+integration:
+  github:
+    summary_comment: true
+    line_comments: true
+    status_checks: true
+
+    labels:
+      security_issues: ["security", "needs-review"]
+      performance_issues: ["performance", "optimization"]
+      quality_issues: ["code-quality", "refactoring"]
