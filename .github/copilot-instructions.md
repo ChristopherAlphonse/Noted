@@ -2,137 +2,21 @@
 description: 'Specification-Driven Workflow v1 provides a structured approach to software development, ensuring that requirements are clearly defined, designs are meticulously planned, and implementations are thoroughly documented and validated.'
 applyTo: '**'
 ---
-Zero Anti-Patterns:
 
-- Function-Based Architecture
-- Standard Functions
-- Named Constants
-- Focused Functions
-- Consistent Logging
-- Type Safety
-- API Simplification
 
-read: [ROADMAP.MD, tasks\tasks-ROADMAP.md]
+Purpose: provide a compact entry-point to the project's specification-driven workflow and coding disciplines. The full guidance has been split into three focused documents:
 
-# Spec Driven Workflow v1
+- `copilot-instructions-core.md` — Core Discipline: essential rules, minimal coding guidelines, and quick checks.
+- `copilot-instructions-enhanced.md` — Enhanced Discipline: expanded process (analysis, design, implementation), templates, and technical debt handling.
+- `copilot-instructions-full.md` — Full Spec Mode: exhaustive templates, QA, and EARS reference for full-spec work.
 
-**Specification-Driven Workflow:**
-Bridge the gap between requirements and implementation.
+Where to start:
+- For day-to-day development follow `copilot-instructions-core.md`.
+- For project-level design & coordination read `copilot-instructions-enhanced.md`.
+- For formal delivery, documentation, and handoff use `copilot-instructions-full.md`.
 
-**Maintain these artifacts at all times:**
+Maintainers: keep these files synchronized. Add small edits to the appropriate discipline file; keep this index short.
 
-- **`tasks/*`**: Detailed, trackable implementation plan.Technical architecture, sequence diagrams, implementation considerations.User stories and acceptance criteria in structured EARS notation.
-
-## Universal Documentation Framework
-
-**Documentation Rule:**
-Use the detailed templates as the **primary source of truth** for all documentation.
-
-**Summary formats:**
-Use only for concise artifacts such as changelogs and pull request descriptions.
-
-### Detailed Documentation Templates
-
-#### Action Documentation Template (All Steps/Executions/Tests)
-
-```bash
-### [TYPE] - [ACTION] - [TIMESTAMP]
-**Objective**: [Goal being accomplished]
-**Context**: [Current state, requirements, and reference to prior steps]
-**Decision**: [Approach chosen and rationale, referencing the Decision Record if applicable]
-**Execution**: [Steps taken with parameters and commands used. For code, include file paths.]
-**Output**: [Complete and unabridged results, logs, command outputs, and metrics]
-**Validation**: [Success verification method and results. If failed, include a remediation plan.]
-**Next**: [Automatic continuation plan to the next specific action]
-```
-
-#### Decision Record Template (All Decisions)
-
-```bash
-### Decision - [TIMESTAMP]
-**Decision**: [What was decided]
-**Context**: [Situation requiring decision and data driving it]
-**Options**: [Alternatives evaluated with brief pros and cons]
-**Rationale**: [Why the selected option is superior, with trade-offs explicitly stated]
-**Impact**: [Anticipated consequences for implementation, maintainability, and performance]
-**Review**: [Conditions or schedule for reassessing this decision]
-```
-
-### Summary Formats (for Reporting)
-
-#### Streamlined Action Log
-
-For generating concise changelogs. Each log entry is derived from a full Action Document.
-
-`[TYPE][TIMESTAMP] Goal: [X] → Action: [Y] → Result: [Z] → Next: [W]`
-
-#### Compressed Decision Record
-
-For use in pull request summaries or executive summaries.
-
-`Decision: [X] | Rationale: [Y] | Impact: [Z] | Review: [Date]`
-
-## Execution Workflow (6-Phase Loop)
-
-**Never skip any step. Use consistent terminology. Reduce ambiguity.**
-
-### **Phase 1: ANALYZE**
-
-**Objective:**
-
-- Understand the problem.
-- Analyze the existing system.
-- Produce a clear, testable set of requirements.
-- Think about the possible solutions and their implications.
-
-**Checklist:**
-
-- [ ] Read all provided code, documentation, tests, and logs.
-      - Document file inventory, summaries, and initial analysis results.
-- [ ] Define requirements in **EARS Notation**:
-      - Transform feature requests into structured, testable requirements.
-      - Format: `WHEN [a condition or event], THE SYSTEM SHALL [expected behavior]`
-- [ ] Identify dependencies and constraints.
-      - Document a dependency graph with risks and mitigation strategies.
-- [ ] Map data flows and interactions.
-      - Document system interaction diagrams and data models.
-- [ ] Catalog edge cases and failures.
-      - Document a comprehensive edge case matrix and potential failure points.
-- [ ] Assess confidence.
-      - Generate a **Confidence Score (0-100%)** based on clarity of requirements, complexity, and problem scope.
-      - Document the score and its rationale.
-
-**Critical Constraint:**
-
-- **Do not proceed until all requirements are clear and documented.**
-
-### **Phase 2: DESIGN**
-
-**Objective:**
-
-- Create a comprehensive technical design and a detailed implementation plan.
-
-**Checklist:**
-
-- [ ] **Define adaptive execution strategy based on Confidence Score:**
-  - **High Confidence (>85%)**
-    - Draft a comprehensive, step-by-step implementation plan.
-    - Skip proof-of-concept steps.
-    - Proceed with full, automated implementation.
-    - Maintain standard comprehensive documentation.
-  - **Medium Confidence (66–85%)**
-    - Prioritize a **Proof-of-Concept (PoC)** or **Minimum Viable Product (MVP)**.
-    - Define clear success criteria for PoC/MVP.
-    - Build and validate PoC/MVP first, then expand plan incrementally.
-    - Document PoC/MVP goals, execution, and validation results.
-  - **Low Confidence (<66%)**
-    - Dedicate first phase to research and knowledge-building.
-    - Use semantic search and analyze similar implementations.
-    - Synthesize findings into a research document.
-    - Re-run ANALYZE phase after research.
-    - Escalate only if confidence remains low.
-
-- [ ] **Document technical design in `design.md`:**
   - **Architecture:** High-level overview of components and interactions.
   - **Data Flow:** Diagrams and descriptions.
   - **Interfaces:** API contracts, schemas, public-facing function signatures.
