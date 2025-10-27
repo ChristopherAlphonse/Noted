@@ -1,11 +1,49 @@
+
 version: 2
 updates:
+
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
-      interval: "daily"
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "America/New_York"
 
-  - package-ecosystem: "npm"
-    directory: "/server"
+    open-pull-requests-limit: 2
+    reviewers:
+      - "ChristopherAlphonse"
+    assignees:
+      - "ChristopherAlphonse"
+
+    groups:
+      production-dependencies:
+        dependency-type: "production"
+        update-types:
+          - "minor"
+          - "patch"
+      development-dependencies:
+        dependency-type: "development"
+        update-types:
+          - "minor"
+          - "patch"
+    allow:
+      - dependency-type: "direct"
+      - dependency-type: "indirect"
+
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
+
+  - package-ecosystem: "github-actions"
+    directory: "/.github/workflows"
     schedule:
-      interval: "daily"
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "America/New_York"
+    open-pull-requests-limit: 1
+    reviewers:
+      - "ChristopherAlphonse"
+    assignees:
+      - "ChristopherAlphonse"

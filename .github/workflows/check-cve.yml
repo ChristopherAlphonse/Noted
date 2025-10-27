@@ -1,0 +1,29 @@
+name: Security Check
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches:
+      - main
+    paths-ignore:
+      - '**.md'
+  workflow_run:
+    workflows: ["reviewdog"]
+    types:
+      - completed
+    branches:
+      - main
+
+jobs:
+  run-on-renovate:
+    if: (github.actor == 'renovate[bot]' && github.event_name == 'pull_request') || (github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Run Security Scans
+        run: yarn audit --groups dependencies

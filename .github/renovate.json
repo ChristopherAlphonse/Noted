@@ -1,0 +1,47 @@
+{
+    "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+    "assignees": ["christopheralphonse"],
+    "extends": ["config:base"],
+    "osvVulnerabilityAlerts": true,
+    "prHeader": "BOT Dependency Check",
+    "prHourlyLimit": 0,
+    "prConcurrentLimit": 2,
+    "minimumReleaseAge": "3 hours",
+    "schedule": ["every 3 hours"],
+    "timezone": "America/New_York",
+    "branchConcurrentLimit": 5,
+    "packageRules": [
+        {
+            "description": "Biome updates - enable automerge for minor and patch",
+            "matchPackageNames": ["@biomejs/biome"],
+            "automerge": true,
+            "matchUpdateTypes": ["minor", "patch"],
+            "labels": ["biome", "automerge"]
+        },
+        {
+            "description": "Biome major updates - require manual review",
+            "matchPackageNames": ["@biomejs/biome"],
+            "automerge": false,
+            "matchUpdateTypes": ["major"],
+            "labels": ["biome", "major-update"],
+            "reviewers": ["christopheralphonse"]
+        },
+        {
+            "description": "Allow automerge for safe minor and patch updates (no vulnerabilities)",
+            "automerge": true,
+            "matchDepTypes": ["dependencies", "devDependencies"],
+            "matchUpdateTypes": ["minor", "patch"]
+        },
+        {
+            "description": "Limit all updates with controlled timing",
+            "matchPackagePatterns": ["*"],
+            "schedule": ["at any time"],
+            "prCreation": "not-pending",
+            "minimumReleaseAge": "3 hours"
+        }
+    ],
+    "postUpdateOptions": ["yarnDedupeHighest"],
+    "vulnerabilityAlerts": {
+        "enabled": true
+    }
+}
