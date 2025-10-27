@@ -264,16 +264,17 @@ jobs:
               if (copilot) triggeredReviews.push(' GitHub Copilot');
               if (githubActions) triggeredReviews.push(' GitHub Actions');
               if (coderabbit) triggeredReviews.push(' CodeRabbit AI');
+              const reviewList = triggeredReviews.map(r => '- ' + r).join('\n');
+
+              const body = '## Automated Reviews Completed\n\n' +
+                'The following reviews have been triggered and completed:\n' +
+                reviewList +
+                '\n\nAll review labels have been automatically removed. You can re-apply them anytime to trigger additional reviews.';
 
               await github.rest.issues.createComment({
                 issue_number: context.issue.number,
                 owner: context.repo.owner,
                 repo: context.repo.repo,
-                body: `##  Automated Reviews Completed
-
-            The following reviews have been triggered and completed:
-            ${triggeredReviews.map(review => \`- ${review}\`).join('\\n')}
-
-            All review labels have been automatically removed. You can re-apply them anytime to trigger additional reviews.`
+                body: body
               });
             }
