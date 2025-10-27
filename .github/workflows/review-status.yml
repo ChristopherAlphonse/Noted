@@ -1,0 +1,94 @@
+name: Review Status Notifications
+
+on:
+  workflow_run:
+    workflows:
+      - "Label Triggered Code Reviews"
+      - "GitHub Copilot Enhanced Review"
+    types:
+      - completed
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+
+jobs:
+  notify-completion:
+    runs-on: ubuntu-latest
+    if: github.event.workflow_run.event == 'pull_request'
+
+    steps:
+      - name: Send notification
+        uses: actions/github-script@v7
+        with:
+          script: |
+            // Get the PR for this branch
+            const { data: pullRequests } = await github.rest.pulls.list({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              head: `${context.repo.owner}:${context.payload.workflow_run.head_branch}`,
+              state: 'open'
+            });
+
+            if (pullRequests.length === 0) {
+              console.log('No PR found for this branch');
+              return;
+            }
+
+            const pr = pullRequests[0];
+            const workflowName = context.payload.workflow_run.name;
+            const conclusion = context.payload.workflow_run.conclusion;
+            const runUrl = context.payload.workflow_run.html_url;
+
+            // Determine status
+            let emoji = conclusion === 'success' ? '✅' :
+                       conclusion === 'failure' ? '❌' : '⚠️';
+            let status = conclusion === 'success' ? 'completed successfully' :
+                        conclusion === 'failure' ? 'failed' : 'was cancelled';
+
+            // Add completion label for successful reviews
+            if (conclusion === 'success') {
+              let label = '';
+              if (workflowName.includes('Copilot')) {
+                label = 'copilot-reviewed';
+              } else if (workflowName.includes('Label Triggered')) {
+                label = 'automated-reviewed';
+              }
+
+              if (label) {
+                try {
+                  await github.rest.issues.addLabels({
+                    issue_number: pr.number,
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    labels: [label]
+                  });
+                } catch (error) {
+                  console.log('Label may already exist:', error.message);
+                }
+              }
+            }
+
+            // Create notification message
+            const message = [
+              `## ${emoji} Review Status Update`,
+              '',
+              `**Workflow**: ${workflowName}`,
+              `**Status**: ${status}`,
+              `**Details**: [View run](${runUrl})`,
+              '',
+              conclusion === 'success'
+                ? ' Review completed! Check above for analysis and recommendations.'
+                : ' Review failed. Check workflow logs and try again.',
+              '',
+              '---',
+              '*Apply labels `copilot-review`, `github-actions-review`, or `coderabbitai-review` to trigger more reviews*'
+            ].join('\\n');
+
+            await github.rest.issues.createComment({
+              issue_number: pr.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: message
+            });
