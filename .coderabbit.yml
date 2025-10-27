@@ -1,7 +1,7 @@
 
 reviews:
-
-  auto_review: false
+  auto_review:
+    enabled: false
   request_changes_threshold: 2
 
   review_depth: comprehensive
