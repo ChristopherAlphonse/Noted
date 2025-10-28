@@ -1,0 +1,15 @@
+node_modules
+dist
+build
+.venv
+.env
+.env.local
+.env.*.local
+.cache
+.turbo
+.next
+/.git
+.DS_Store
+npm-debug.log
+pnpm-lock.yaml
+Dockerfile*
